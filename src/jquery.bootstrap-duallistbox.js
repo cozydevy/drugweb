@@ -19,9 +19,9 @@
       showFilterInputs: true,                                                             // whether to show filter inputs
       nonSelectedFilter: '',                                                              // string, filter the non selected options
       selectedFilter: '',                                                                 // string, filter the selected options
-      infoText: '{0}',                                                        // text when all options are visible / false for no info text
+      infoText: ' ',                                                        // text when all options are visible / false for no info text
       infoTextFiltered: '<span class="label label-warning">Filtered</span> {0} from {1}', // when not all of the options are visible due to the filter
-      infoTextEmpty: 'Empty list',                                                        // when there are no options present in the list
+      infoTextEmpty: '',                                                        // when there are no options present in the list
       filterOnValues: false,                                                              // filter by selector's values, boolean
       sortByInputOrder: false,
       eventMoveOverride: false,                                                           // boolean, allows user to unbind default event behaviour and run their own instead
@@ -371,7 +371,7 @@
         '   <input class="filter" type="text">' +
         '   <div class="btn-group buttons">' +
         '     <button type="button" class="btn moveall">' +
-        '       <i></i>' +
+        '       <i ></i>' +
         '       <i></i>' +
         '     </button>' +
         '     <button type="button" class="btn move">' +
@@ -391,6 +391,7 @@
         '     <button type="button" class="btn remove">' +
         '       <i></i>' +
         '     </button>' +
+        
         '     <button type="button" class="btn removeall">' +
         '       <i></i>' +
         '       <i></i>' +
@@ -482,16 +483,18 @@
         this.container.find('.clear1, .clear2').removeClass('btn-default btn-xs').addClass('btn-mini');
         this.container.find('input, select').removeClass('form-control');
         this.container.find('.btn').removeClass('btn-default');
+        this.container.find('.moveall > i, .move > i').addClass('bi bi-arrow-right-square');
         this.container.find('.moveall > i, .move > i').removeClass('glyphicon glyphicon-arrow-right').addClass('icon-arrow-right');
-        this.container.find('.removeall > i, .remove > i').removeClass('glyphicon glyphicon-arrow-left').addClass('icon-arrow-left');
+
+        this.container.find('.removeall > i, .remove > i').addClass('icon-arrow-left');
       } else {
         this.container.removeClass('row-fluid bs2compatible').addClass('row');
         this.container.find('.box1, .box2').removeClass('span6').addClass('col-md-6');
         this.container.find('.clear1, .clear2').removeClass('btn-mini').addClass('btn-default btn-xs');
         this.container.find('input, select').addClass('form-control');
         this.container.find('.btn').addClass('btn-default');
-        this.container.find('.moveall > i, .move > i').removeClass('icon-arrow-right').addClass('glyphicon glyphicon-arrow-right');
-        this.container.find('.removeall > i, .remove > i').removeClass('icon-arrow-left').addClass('glyphicon glyphicon-arrow-left');
+        this.container.find('.moveall > i, .move > i').removeClass('icon-arrow-right').addClass('bi bi-caret-right-fill');
+        this.container.find('.removeall > i, .remove > i').removeClass('icon-arrow-left').addClass('bi bi-caret-left-fill');
       }
       if (refresh) {
         refreshSelects(this);
