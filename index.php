@@ -39,6 +39,17 @@
           console.log(storedAry)
         }
       });
+      $.ajax({
+        url: 'http://127.0.0.1/drugapi/api/otherdrug/read.php',
+        data: {},
+        type: 'get',
+        success: function(result) {
+
+          $.cookie('nameotherdrug', JSON.stringify(result.otherdrug));
+          var storedAry = JSON.parse($.cookie('nameotherdrug'));
+          console.log(storedAry)
+        }
+      });
     });
   </script>
 
@@ -52,7 +63,8 @@
     <?php
 
     //  $arr = json_decode( $resultdrug );
-    $arr = json_decode($_COOKIE['namedrug'], true);
+    $resultdrug = json_decode($_COOKIE['namedrug'], true);
+    $resultotherdrug = json_decode($_COOKIE['nameotherdrug'], true);
 
 
 
@@ -75,7 +87,7 @@
         <select multiple="multiple" size="10" name="duallistbox_demo1[]" class="demo1">
           <?php
 
-          foreach ($arr as $item) { //foreach element in $arr
+          foreach ($resultdrug as $item) { //foreach element in $arr
           ?>
 
             <option value="<?= $item['id'] ?>"><?= $item['drugname'] ?> </option>
@@ -102,7 +114,15 @@
       <form id="demoform2" action="#" method="post">
 
         <select multiple="multiple" size="10" name="duallistbox_demo2[]" class="demo2">
-          <option value="option1">Option 1</option>
+          <?php
+
+          foreach ($resultotherdrug as $item) { //foreach element in $arr
+          ?>
+
+            <option value="<?= $item['id'] ?>"><?= $item['otherdrug'] ?> </option>
+
+          <?php } ?>
+
 
         </select>
         <br>
