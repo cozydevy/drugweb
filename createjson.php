@@ -1,4 +1,9 @@
 <?php
+
+$pathservdrug = "/api/drug/read.php";
+$pathservother = "/api/otherdrug/read.php";
+
+
 $post_data = array(
   'item1' =>array(
     'item_type_id' => 1,
