@@ -136,12 +136,18 @@
   <script>
     var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
     var demo2 = $('select[name="duallistbox_demo2[]"]').bootstrapDualListbox();
+    const drugs = [];
 
     $("#btndata").click(function () {
       alert($('[name="duallistbox_demo1[]"]').val());
-      console.log($('[name="duallistbox_demo1[]"]').val());
+      alert($('[name="duallistbox_demo2[]"]').val());
 
-      return false;
+      var list1 =$('[name="duallistbox_demo1[]"]').val()
+      var list2 =$('[name="duallistbox_demo2[]"]').val()
+      drugs.push(...list1)
+      drugs.push(...list2)
+      console.log(drugs)
+            return false;
     });
   </script>
 
