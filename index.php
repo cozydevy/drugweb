@@ -164,10 +164,10 @@
       otherdrug: []
     };
 
-    
+
     $("#btndata").click(function() {
-      alert($('[name="duallistbox_demo1[]"]').val());
-      alert($('[name="duallistbox_demo2[]"]').val());
+      // alert($('[name="duallistbox_demo1[]"]').val());
+      // alert($('[name="duallistbox_demo2[]"]').val());
 
       // alert( $('select[name="duallistbox_demo1[]"]  option:selected' ).text());
       // alert( $('select[name="duallistbox_demo2[]"]  option:selected' ).text());
@@ -175,8 +175,8 @@
       var drugall = $('[name="duallistbox_demo1[]"]').val();
       var otherdrugall = $('[name="duallistbox_demo2[]"]').val();
 
-      var drugallname =  $('select[name="duallistbox_demo1[]"]  option:selected' ).text();
-      var otherdrugallname = $('select[name="duallistbox_demo2[]"]  option:selected' ).text();
+      var drugallname = $('select[name="duallistbox_demo1[]"]  option:selected').text();
+      var otherdrugallname = $('select[name="duallistbox_demo2[]"]  option:selected').text();
 
       const sp_drugallname = drugallname.split(" ");
       const sp_otherdrugallname = otherdrugallname.split(" ");
@@ -184,7 +184,7 @@
       console.log(sp_drugallname);
       console.log(drugall.length);
 
-      for (let i=0; i < drugall.length; i++) {
+      for (let i = 0; i < drugall.length; i++) {
 
         var id = drugall[i];
         var namedrug = sp_drugallname[i];
@@ -192,7 +192,7 @@
         drugs.drug.push({
           "iddrug": id,
           "drugname": namedrug
-         
+
         })
       }
 
@@ -203,7 +203,40 @@
           "idotherdrug": item
         })
       }
-      console.log(JSON.stringify(drugs))
+
+      const drugsearch = JSON.stringify(drugs);
+      var xxx = {
+        "drug": [{
+          "iddrug": "D1",
+          "drugname": "Busulfan"
+        }, {
+          "iddrug": "D2",
+          "drugname": "Chlorambucilss"
+        }, {
+          "iddrug": "D6",
+          "drugname": "Ifosfamide"
+        }],
+        "otherdrug": [{
+          "idotherdrug": "O1"
+        }, {
+          "idotherdrug": "O2"
+        }]
+      }
+
+      $.ajax({
+        type: "POST",
+        url: "http://127.0.0.1/drugapi/api/interact/read_one.php",
+        dataType: 'json',
+        data: JSON.stringify(xxx),
+        success: function(result) {
+          console.log(result);
+        },
+        error: function(result) {
+          // alert(JSON.stringify(result));
+          console.log(JSON.stringify(result))
+        }
+      });
+      // console.log(JSON.stringify(drugs))
       return false;
     });
   </script>

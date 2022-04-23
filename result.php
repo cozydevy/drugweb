@@ -4,6 +4,7 @@ $filename = 'data.json';
 
 $data = file_get_contents($filename);
 $users = json_decode($data);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
