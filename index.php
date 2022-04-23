@@ -157,17 +157,53 @@
   <script>
     var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox();
     var demo2 = $('select[name="duallistbox_demo2[]"]').bootstrapDualListbox();
-    const drugs = [];
+    // var drugs = [];
 
+    var drugs = {
+      drug: [],
+      otherdrug: []
+    };
+
+    
     $("#btndata").click(function() {
       alert($('[name="duallistbox_demo1[]"]').val());
       alert($('[name="duallistbox_demo2[]"]').val());
 
-      var list1 = $('[name="duallistbox_demo1[]"]').val()
-      var list2 = $('[name="duallistbox_demo2[]"]').val()
-      drugs.push(...list1)
-      drugs.push(...list2)
-      console.log(drugs)
+      // alert( $('select[name="duallistbox_demo1[]"]  option:selected' ).text());
+      // alert( $('select[name="duallistbox_demo2[]"]  option:selected' ).text());
+
+      var drugall = $('[name="duallistbox_demo1[]"]').val();
+      var otherdrugall = $('[name="duallistbox_demo2[]"]').val();
+
+      var drugallname =  $('select[name="duallistbox_demo1[]"]  option:selected' ).text();
+      var otherdrugallname = $('select[name="duallistbox_demo2[]"]  option:selected' ).text();
+
+      const sp_drugallname = drugallname.split(" ");
+      const sp_otherdrugallname = otherdrugallname.split(" ");
+
+      console.log(sp_drugallname);
+      console.log(drugall.length);
+
+      for (let i=0; i < drugall.length; i++) {
+
+        var id = drugall[i];
+        var namedrug = sp_drugallname[i];
+
+        drugs.drug.push({
+          "iddrug": id,
+          "drugname": namedrug
+         
+        })
+      }
+
+      for (var j in otherdrugall) {
+
+        var item = otherdrugall[j];
+        drugs.otherdrug.push({
+          "idotherdrug": item
+        })
+      }
+      console.log(JSON.stringify(drugs))
       return false;
     });
   </script>
