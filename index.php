@@ -1,3 +1,7 @@
+<?php 
+session_start();
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -21,6 +25,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
   </script>
+    <script src="js/jquery.redirect.js"></script>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <script>
@@ -164,7 +169,22 @@
       otherdrug: []
     };
 
+    function getSelectValues(select) {
+      console.log(select);
 
+      var result = [];
+      var options = select;
+      var opt;
+      var iLen = options.length
+      for (var i = 0; i < iLen; i++) {
+        opt = options[i];
+
+        if (opt.selected) {
+          result.push(opt.text);
+        }
+      }
+      return result;
+    }
     $("#btndata").click(function() {
       // alert($('[name="duallistbox_demo1[]"]').val());
       // alert($('[name="duallistbox_demo2[]"]').val());
@@ -179,11 +199,11 @@
       var otherdrugallname = $('select[name="duallistbox_demo2[]"]  option:selected').text();
 
       const sp_drugallname = drugallname.split(" ");
-      const sp_otherdrugallname = otherdrugallname.split(" ");
+      const sp_otherdrugallname = otherdrugallname.split(")");
 
-      console.log(sp_drugallname);
-      console.log(drugall.length);
-
+      var el =  $('select[name="duallistbox_demo2[]_helper2"]')[0];
+      const arr_otherdrugallname=getSelectValues(el);
+      
       for (let i = 0; i < drugall.length; i++) {
 
         var id = drugall[i];
@@ -199,12 +219,15 @@
       for (var j in otherdrugall) {
 
         var item = otherdrugall[j];
+        var otherdrugname = arr_otherdrugallname[j];
         drugs.otherdrug.push({
-          "idotherdrug": item
+          "idotherdrug": item,
+          "otherdrugname": otherdrugname
         })
       }
 
       const drugsearch = JSON.stringify(drugs);
+      console.log(drugsearch)
 
 
       $.ajax({
@@ -213,10 +236,20 @@
         dataType: 'json',
         data: JSON.stringify(drugs),
         success: function(result) {
-          console.log(result);
-         
+
           window.sessionStorage.setItem("result", JSON.stringify(result));
           var storedArray = JSON.parse(sessionStorage.getItem("result"));
+        
+          var dictstring = JSON.stringify(result);
+
+          console.log(typeof storedArray);
+          document.cookie = "username=John Doe";
+          let x = document.cookie["username"];
+          console.log(x)
+          // $.redirect("http://127.0.0.1/webdrug/result2.php",result); 
+     
+          // location.href = "http://127.0.0.1/webdrug/result2.php"
+
 
         },
         error: function(result) {

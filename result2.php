@@ -1,13 +1,33 @@
 <?php
 
-$filename = 'data.json';
-$filename2 = 'data2.json';
+$filename = 'data2.json';
 
 $data = file_get_contents($filename);
-$data2 = file_get_contents($filename2);
 
-$users = json_decode($data);
-$u = json_decode($data2);
+$dataresult = json_decode($data, true);
+
+//loop ดึงข้อมูล 
+//  $numcount = count($dataresult['interaction']);
+
+// for($k=0;$k<$numcount;$k++){
+//     $namedrug =array_keys($dataresult['interaction'])[$k];
+//   $countindrug=count($dataresult['interaction'][$namedrug]);
+//     for($p=0;$p<$countindrug;$p++)  {
+//       $iddrug=$dataresult['interaction'][$namedrug][$p]["iddrug"];
+//       $idotherdrug=$dataresult['interaction'][$namedrug][$p]["idotherdrug"];
+//       echo($iddrug);
+//       echo($idotherdrug);
+
+//     }
+
+
+// }
+
+//-----
+// $iddrug=$dataresult['interaction']["Busulfan"][0]["id"];
+
+
+// $numdrug = count($u->interaction);
 
 ?>
 <!DOCTYPE html>
@@ -33,7 +53,8 @@ $u = json_decode($data2);
 
   <script>
     $(document).ready(function() {
-
+      var storedArray = JSON.parse(sessionStorage.getItem("result"));
+      console.log(storedArray);
       // Assigned User Dropdown Filter
       $('#assigned-user-filter').on('change', function() {
         var assignedUser = this.value;
@@ -131,7 +152,7 @@ $u = json_decode($data2);
 
 <body>
   <br>
-  <h2>Testing Task List Filters</h2>
+  <h2>Result</h2>
   <hr><br>
 
   <div class="container">
@@ -140,25 +161,20 @@ $u = json_decode($data2);
       <table class="table">
         <thead>
           <tr class="filters">
-            <th>Assigned User
+            <th>Drug
               <select id="assigned-user-filter" class="form-control">
                 <option>None</option>
-                <option>John</option>
-                <option>Rob</option>
-                <option>Larry</option>
-                <option>Donald</option>
-                <option>Roger</option>
+              
               </select>
             </th>
-            <th>Status
+            <th>summary
               <select id="status-filter" class="form-control">
-                <option>Any</option>
-                <option>Not Started</option>
-                <option>In Progress</option>
-                <option>Completed</option>
+                <option>None</option>
+              
+             
               </select>
             </th>
-            <th>Milestone
+            <th>severity
               <select id="milestone-filter" class="form-control">
                 <option>None</option>
                 <option>Milestone 1</option>
@@ -166,21 +182,16 @@ $u = json_decode($data2);
                 <option>Milestone 3</option>
               </select>
             </th>
-            <th>Priority
+            <th>documentation
               <select id="priority-filter" class="form-control">
                 <option>Any</option>
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-                <option>Urgent</option>
+               
               </select>
             </th>
-            <th>Tags
+            <th>clarification
               <select id="tags-filter" class="form-control">
                 <option>None</option>
-                <option>Tag 1</option>
-                <option>Tag 2</option>
-                <option>Tag 3</option>
+              
               </select>
             </th>
           </tr>
@@ -190,7 +201,7 @@ $u = json_decode($data2);
 
       <div class="panel panel-primary filterable">
         <div class="panel-heading">
-          <h3 class="panel-title">Tasks</h3>
+          <h3 class="panel-title">Result</h3>
           <div class="pull-right"></div>
         </div>
 
@@ -201,39 +212,65 @@ $u = json_decode($data2);
         <table id="task-list-tbl" class="table">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Created</th>
-              <th>Due Date</th>
-              <th>Priority</th>
-              <th>Milestone</th>
-              <th>Assigned User</th>
-              <th>Tags</th>
+              <th>Drug</th>
+              <th>summary</th>
+              <th>severity</th>
+              <th>documentation</th>
+              <th>clarification</th>
+              <th>reference</th>
             </tr>
           </thead>
           <!-- body -->
           <tbody>
-            <?php 
-            $i=1;
-            foreach ($users as $user) {
-
-              ?>
-              <!-- <tr id="task-1" class="task-list-row" data-task-id="1" data-assigned-user="Larry" data-status="In Progress" data-milestone="Milestone 2" data-priority="Urgent" data-tags="Tag 2"> -->
-
-              <tr id="task-<?=$i?>" class="task-list-row" data-task-id=<?=$i ?> data-assigned-user=<?= $user->assigned; ?> data-status="In Progress" 
-              data-milestone="<?= $user->milestone; ?>" data-priority="<?=$user->priority; ?>" data-tags="<?=$user->tags; ?>" >
-                <td> <?= $user->title; ?> </td>
-                <td> <?= $user->created; ?> </td>
-                <td> <?= $user->dudate; ?> </td>
-                <td> <?= $user->priority; ?> </td>
-                <td> <?= $user->milestone; ?> </td>
-                <td> <?= $user->assigned; ?> </td>
-                <td> <?= $user->tags; ?> </td>
-
-              </tr>
             <?php
-          
-          $i++;
-          } ?>
+            $i = 1;
+            // for ($j = 0; $j < $numdrug; $j++) {
+
+            //   $interact->iddrug = $u->interaction[$i];
+
+
+            // }
+
+            $numcount = count($dataresult['interaction']);
+
+            for ($k = 0; $k < $numcount; $k++) {
+              $namedrug = array_keys($dataresult['interaction'])[$k];
+              $countindrug = count($dataresult['interaction'][$namedrug]);
+              for ($p = 0; $p < $countindrug; $p++) {
+                $iddrug = $dataresult['interaction'][$namedrug][$p]["drugname"];
+                $idotherdrug = $dataresult['interaction'][$namedrug][$p]["otherdrugname"];
+              $alldrung = $iddrug."<br>".$idotherdrug;
+                $summary = $dataresult['interaction'][$namedrug][$p]["summary"];
+                $severity = $dataresult['interaction'][$namedrug][$p]["severity"];
+                $documentation = $dataresult['interaction'][$namedrug][$p]["documentation"];
+                $clarification = $dataresult['interaction'][$namedrug][$p]["clarification"];
+                $reference = $dataresult['interaction'][$namedrug][$p]["reference"];
+
+
+
+
+
+
+            ?>
+                <!-- <tr id="task-1" class="task-list-row" data-task-id="1" data-assigned-user="Larry" data-status="In Progress" data-milestone="Milestone 2" data-priority="Urgent" data-tags="Tag 2"> -->
+                <!-- <tr id="task-<?= $i ?>" class="task-list-row" data-task-id=<?= $i ?> data-assigned-user=<?= $user->assigned; ?> data-status="In Progress" data-milestone="<?= $user->milestone; ?>" data-priority="<?= $user->priority; ?>" data-tags="<?= $user->tags; ?>"> -->
+
+                <tr>
+        
+                  <td> <?= $alldrung ; ?> </td>
+                  <td> <?= $summary ; ?> </td>
+                  <td> <?= $severity ; ?> </td>
+                  <td> <?= $documentation ; ?> </td>
+                  <td> <?= $clarification ; ?> </td>
+                  <td> <?= $reference ; ?> </td>
+
+
+                </tr>
+            <?php
+
+                $i++;
+              }
+            } ?>
 
 
           </tbody>
