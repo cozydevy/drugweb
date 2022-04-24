@@ -205,31 +205,19 @@
       }
 
       const drugsearch = JSON.stringify(drugs);
-      var xxx = {
-        "drug": [{
-          "iddrug": "D1",
-          "drugname": "Busulfan"
-        }, {
-          "iddrug": "D2",
-          "drugname": "Chlorambucilss"
-        }, {
-          "iddrug": "D6",
-          "drugname": "Ifosfamide"
-        }],
-        "otherdrug": [{
-          "idotherdrug": "O1"
-        }, {
-          "idotherdrug": "O2"
-        }]
-      }
+
 
       $.ajax({
         type: "POST",
         url: "http://127.0.0.1/drugapi/api/interact/read_one.php",
         dataType: 'json',
-        data: JSON.stringify(xxx),
+        data: JSON.stringify(drugs),
         success: function(result) {
           console.log(result);
+         
+          window.sessionStorage.setItem("result", JSON.stringify(result));
+          var storedArray = JSON.parse(sessionStorage.getItem("result"));
+
         },
         error: function(result) {
           // alert(JSON.stringify(result));
