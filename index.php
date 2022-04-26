@@ -246,7 +246,7 @@ session_start();
 
           console.log(storedArray);
        
-          $.redirect('http://127.0.0.1/webdrug/getpost.php', {re}, "POST");
+          $.redirect('http://127.0.0.1/webdrug/result3.php', {re}, "POST");
           // $.redirect("http://127.0.0.1/webdrug/result2.php",result); 
      
           // location.href = "http://127.0.0.1/webdrug/result2.php"

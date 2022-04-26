@@ -1,48 +1,14 @@
 <?php
 
-function correct_encoding($text) {
-  $current_encoding = mb_detect_encoding($text, 'auto');
-  $text = iconv($current_encoding, 'UTF-8', $text);
-  return $text;
-}
-$test = '<script>
-var storedArray = sessionStorage.getItem("result");
-      
-document.write(storedArray);
-</script>';
-
-$str = '{"interaction":{"Busulfan":[{"id":"1","drugname":"Busulfan","otherdrugname":"โกฐเชียง (Angelica sinensis (Oliv.) Diels)","summary":"ไม่พบข้อมูลการเกิดอันตรกิริยาระหว่างยาและสมุนไพร","severity":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","documentation":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","clarification":"","reference":""},{"id":"2","drugname":"Busulfan","otherdrugname":"โกฐจุฬาลัมพา (Artemisia annua L.)","summary":"ไม่พบข้อมูลการเกิดอันตรกิริยาระหว่างยาและสมุนไพร","severity":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","documentation":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","clarification":"","reference":""}],"Chlorambucilss":[{"id":"7","drugname":"Chlorambucilss","otherdrugname":"โกฐเชียง (Angelica sinensis (Oliv.) Diels)","summary":"ไม่พบข้อมูลการเกิดอันตรกิริยาระหว่างยาและสมุนไพร","severity":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","documentation":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","clarification":"","reference":""},{"id":"8","drugname":"Chlorambucilss","otherdrugname":"โกฐจุฬาลัมพา (Artemisia annua L.)","summary":"ไม่พบข้อมูลการเกิดอันตรกิริยาระหว่างยาและสมุนไพร","severity":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","documentation":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","clarification":"","reference":""}]}}';
-$filename = 'data2.json';
-
-$data = file_get_contents($filename);
-$str2 = (string)$test;
-$str3 = $str;
-$stringaa  = utf8_encode($test);
-
-$data2 = mb_detect_encoding($stringaa);
-
-
-
-
-
-$array2 = json_decode($str, true);
-
-
-// print_r($json);
-// print_r($str);
-
-
-
-print_r($array2);
-
-
-
-
+$data = file_get_contents("php://input");
+$result=urldecode($data);
+$result1=str_replace("re=","",$result);
+$json = json_decode($result1, true );
 
 
 
 // $dataresult = json_decode($data, true);
-$dataresult = $array2;
+$dataresult = $json;
 
 
 //loop ดึงข้อมูล 
@@ -278,7 +244,8 @@ $dataresult = $array2;
               for ($p = 0; $p < $countindrug; $p++) {
                 $iddrug = $dataresult['interaction'][$namedrug][$p]["drugname"];
                 $idotherdrug = $dataresult['interaction'][$namedrug][$p]["otherdrugname"];
-                $alldrung = $iddrug . "<br>" . $idotherdrug;
+
+                $alldrung = "- ".$iddrug."<br>"."- ".$idotherdrug;
                 $summary = $dataresult['interaction'][$namedrug][$p]["summary"];
                 $severity = $dataresult['interaction'][$namedrug][$p]["severity"];
                 $documentation = $dataresult['interaction'][$namedrug][$p]["documentation"];
