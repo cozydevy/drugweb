@@ -6,7 +6,9 @@ session_start();
 <html>
 
 <head>
-  <title>Bootstrap Dual Listbox</title>
+  <title>Drug</title>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
 
   <!-- <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
   <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
@@ -240,12 +242,11 @@ session_start();
           window.sessionStorage.setItem("result", JSON.stringify(result));
           var storedArray = JSON.parse(sessionStorage.getItem("result"));
         
-          var dictstring = JSON.stringify(result);
+         var re=  JSON.stringify(result);
 
-          console.log(typeof storedArray);
-          document.cookie = "username=John Doe";
-          let x = document.cookie["username"];
-          console.log(x)
+          console.log(storedArray);
+       
+          $.redirect('http://127.0.0.1/webdrug/getpost.php', {re}, "POST");
           // $.redirect("http://127.0.0.1/webdrug/result2.php",result); 
      
           // location.href = "http://127.0.0.1/webdrug/result2.php"

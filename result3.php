@@ -1,10 +1,49 @@
 <?php
 
+function correct_encoding($text) {
+  $current_encoding = mb_detect_encoding($text, 'auto');
+  $text = iconv($current_encoding, 'UTF-8', $text);
+  return $text;
+}
+$test = '<script>
+var storedArray = sessionStorage.getItem("result");
+      
+document.write(storedArray);
+</script>';
+
+$str = '{"interaction":{"Busulfan":[{"id":"1","drugname":"Busulfan","otherdrugname":"โกฐเชียง (Angelica sinensis (Oliv.) Diels)","summary":"ไม่พบข้อมูลการเกิดอันตรกิริยาระหว่างยาและสมุนไพร","severity":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","documentation":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","clarification":"","reference":""},{"id":"2","drugname":"Busulfan","otherdrugname":"โกฐจุฬาลัมพา (Artemisia annua L.)","summary":"ไม่พบข้อมูลการเกิดอันตรกิริยาระหว่างยาและสมุนไพร","severity":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","documentation":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","clarification":"","reference":""}],"Chlorambucilss":[{"id":"7","drugname":"Chlorambucilss","otherdrugname":"โกฐเชียง (Angelica sinensis (Oliv.) Diels)","summary":"ไม่พบข้อมูลการเกิดอันตรกิริยาระหว่างยาและสมุนไพร","severity":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","documentation":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","clarification":"","reference":""},{"id":"8","drugname":"Chlorambucilss","otherdrugname":"โกฐจุฬาลัมพา (Artemisia annua L.)","summary":"ไม่พบข้อมูลการเกิดอันตรกิริยาระหว่างยาและสมุนไพร","severity":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","documentation":"Unknown: ไม่พบข้อมูลการเกิดอันตรกิริยา","clarification":"","reference":""}]}}';
 $filename = 'data2.json';
 
 $data = file_get_contents($filename);
+$str2 = (string)$test;
+$str3 = $str;
+$stringaa  = utf8_encode($test);
 
-$dataresult = json_decode($data, true);
+$data2 = mb_detect_encoding($stringaa);
+
+
+
+
+
+$array2 = json_decode($str, true);
+
+
+// print_r($json);
+// print_r($str);
+
+
+
+print_r($array2);
+
+
+
+
+
+
+
+// $dataresult = json_decode($data, true);
+$dataresult = $array2;
+
 
 //loop ดึงข้อมูล 
 //  $numcount = count($dataresult['interaction']);
@@ -164,14 +203,14 @@ $dataresult = json_decode($data, true);
             <th>Drug
               <select id="assigned-user-filter" class="form-control">
                 <option>None</option>
-              
+
               </select>
             </th>
             <th>summary
               <select id="status-filter" class="form-control">
                 <option>None</option>
-              
-             
+
+
               </select>
             </th>
             <th>severity
@@ -185,13 +224,13 @@ $dataresult = json_decode($data, true);
             <th>documentation
               <select id="priority-filter" class="form-control">
                 <option>Any</option>
-               
+
               </select>
             </th>
             <th>clarification
               <select id="tags-filter" class="form-control">
                 <option>None</option>
-              
+
               </select>
             </th>
           </tr>
@@ -239,7 +278,7 @@ $dataresult = json_decode($data, true);
               for ($p = 0; $p < $countindrug; $p++) {
                 $iddrug = $dataresult['interaction'][$namedrug][$p]["drugname"];
                 $idotherdrug = $dataresult['interaction'][$namedrug][$p]["otherdrugname"];
-              $alldrung = $iddrug."<br>".$idotherdrug;
+                $alldrung = $iddrug . "<br>" . $idotherdrug;
                 $summary = $dataresult['interaction'][$namedrug][$p]["summary"];
                 $severity = $dataresult['interaction'][$namedrug][$p]["severity"];
                 $documentation = $dataresult['interaction'][$namedrug][$p]["documentation"];
@@ -256,13 +295,13 @@ $dataresult = json_decode($data, true);
                 <!-- <tr id="task-<?= $i ?>" class="task-list-row" data-task-id=<?= $i ?> data-assigned-user=<?= $user->assigned; ?> data-status="In Progress" data-milestone="<?= $user->milestone; ?>" data-priority="<?= $user->priority; ?>" data-tags="<?= $user->tags; ?>"> -->
 
                 <tr>
-        
-                  <td> <?= $alldrung ; ?> </td>
-                  <td> <?= $summary ; ?> </td>
-                  <td> <?= $severity ; ?> </td>
-                  <td> <?= $documentation ; ?> </td>
-                  <td> <?= $clarification ; ?> </td>
-                  <td> <?= $reference ; ?> </td>
+
+                  <td> <?= $alldrung; ?> </td>
+                  <td> <?= $summary; ?> </td>
+                  <td> <?= $severity; ?> </td>
+                  <td> <?= $documentation; ?> </td>
+                  <td> <?= $clarification; ?> </td>
+                  <td> <?= $reference; ?> </td>
 
 
                 </tr>
