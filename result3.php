@@ -168,13 +168,35 @@ $dataresult = $json;
           }).show();
         }
       });
-      /*
-      future use for a text input filter
-      $('#search').on('click', function() {
-          $('.box').hide().filter(function() {
-              return $(this).data('order-number') == $('#search-criteria').val().trim();
+
+      $('#severity-filter').on('change', function() {
+        var severitystatus = this.value;
+
+        if (severitystatus === 'All') {
+          $('.task-list-row').hide().filter(function() {
+            return $(this).data('severity') != severitystatus;
           }).show();
-      });*/
+        } else {
+          $('.task-list-row').hide().filter(function() {
+            return $(this).data('otherdrug') == severitystatus;
+          }).show();
+        }
+      });
+     
+      $('#documentation-filter').on('change', function() {
+        var docsstatus = this.value;
+
+        if (docsstatus === 'All') {
+          $('.task-list-row').hide().filter(function() {
+            return $(this).data('docs') != docsstatus;
+          }).show();
+        } else {
+          $('.task-list-row').hide().filter(function() {
+            return $(this).data('docs') == docsstatus;
+          }).show();
+        }
+      });
+     
 
     });
   </script>
@@ -232,20 +254,21 @@ $dataresult = $json;
               </select>
             </th>
             <th>severity
-              <select id="milestone-filter" class="form-control">
-                <option>None</option>
+              <select id="severity-filter" class="form-control">
+                <option>All</option>
                 <option>Unknown</option>
 
               </select>
             </th>
             <th>documentation
-              <select id="priority-filter" class="form-control">
-                <option>Any</option>
+              <select id="documentation-filter" class="form-control">
+                <option>All</option>
+                <option>Unknown</option>
 
               </select>
             </th>
             <th>clarification
-              <select id="tags-filter" class="form-control">
+              <select id="clarification-filter" class="form-control">
                 <option>None</option>
 
               </select>
@@ -301,7 +324,15 @@ $dataresult = $json;
                 $alldrung = "- ".$iddrug."<br>"."- ".$idotherdrug;
                 $summary = $dataresult['interaction'][$namedrug][$p]["summary"];
                 $severity = $dataresult['interaction'][$namedrug][$p]["severity"];
+                $severitySub = explode(":", $severity);
+                $severitySubs = $severitySub[0];
+
                 $documentation = $dataresult['interaction'][$namedrug][$p]["documentation"];
+
+                $docsub = explode(":", $documentation);
+                $docsubs = $docsub[0];
+
+
                 $clarification = $dataresult['interaction'][$namedrug][$p]["clarification"];
                 $reference = $dataresult['interaction'][$namedrug][$p]["reference"];
 
@@ -316,6 +347,8 @@ $dataresult = $json;
               
                 data-drug="<?=$namedrug; ?>" 
                 data-otherdrug="<?=$idotherdrug; ?>" 
+                data-severity="<?=$severitySubs; ?>" 
+                data-docs="<?=$docsubs; ?>" 
              >
 
               
@@ -324,8 +357,8 @@ $dataresult = $json;
                   <td> <?= $idotherdrug; ?> </td>
 
                   <td> <?= $summary; ?> </td>
-                  <td> <?= $severity; ?> </td>
-                  <td> <?= $documentation; ?> </td>
+                  <td> <?= $severitySubs; ?> </td>
+                  <td> <?= $docsubs; ?> </td>
                   <td> <?= $clarification; ?> </td>
                   <td> <?= $reference; ?> </td>
 
