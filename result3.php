@@ -140,8 +140,34 @@ $dataresult = $json;
         }
       });
 
+ // Task drug Dropdown Filter
+ $('#drug-filter').on('change', function() {
+        var drugStatus = this.value;
 
+        if (drugStatus === 'All') {
+          $('.task-list-row').hide().filter(function() {
+            return $(this).data('drug') != drugStatus;
+          }).show();
+        } else {
+          $('.task-list-row').hide().filter(function() {
+            return $(this).data('drug') == drugStatus;
+          }).show();
+        }
+      });
 
+      $('#otherdrug-filter').on('change', function() {
+        var otherdrugStatus = this.value;
+
+        if (otherdrugStatus === 'All') {
+          $('.task-list-row').hide().filter(function() {
+            return $(this).data('otherdrug') != otherdrugStatus;
+          }).show();
+        } else {
+          $('.task-list-row').hide().filter(function() {
+            return $(this).data('otherdrug') == otherdrugStatus;
+          }).show();
+        }
+      });
       /*
       future use for a text input filter
       $('#search').on('click', function() {
@@ -167,24 +193,49 @@ $dataresult = $json;
         <thead>
           <tr class="filters">
             <th>Drug
-              <select id="assigned-user-filter" class="form-control">
-                <option>None</option>
+              <select id="drug-filter" class="form-control">
+              <option>All</option>
 
+                <?php
+                   $numcounts = count($dataresult['interaction']);
+
+                   for ($k = 0; $k < $numcounts; $k++) {
+                     $namedrug = array_keys($dataresult['interaction'])[$k];
+
+                ?>
+                <option><?=$namedrug; ?></option>
+                      <?php 
+                   }
+                  
+                      ?>
+               
+                      
               </select>
             </th>
-            <th>summary
-              <select id="status-filter" class="form-control">
-                <option>None</option>
+            <th>Other drug
+              <select id="otherdrug-filter" class="form-control">
+              <option>All</option>
 
+                
+                      <?php 
+               
+                   $countindrugs = count($dataresult['interaction'][$namedrug]);
+                   for ($p = 0; $p < $countindrugs; $p++) {
+                    $nameotherdrug = trim($dataresult['interaction'][$namedrug][$p]["otherdrugname"]);
 
+                      ?>
+                <option><?=$nameotherdrug; ?></option>
+                <?php 
+                   }
+                   ?>
+                      
               </select>
             </th>
             <th>severity
               <select id="milestone-filter" class="form-control">
                 <option>None</option>
-                <option>Milestone 1</option>
-                <option>Milestone 2</option>
-                <option>Milestone 3</option>
+                <option>Unknown</option>
+
               </select>
             </th>
             <th>documentation
@@ -218,6 +269,8 @@ $dataresult = $json;
           <thead>
             <tr>
               <th>Drug</th>
+              <th>Otherdrug</th>
+
               <th>summary</th>
               <th>severity</th>
               <th>documentation</th>
@@ -258,12 +311,18 @@ $dataresult = $json;
 
 
             ?>
-                <!-- <tr id="task-1" class="task-list-row" data-task-id="1" data-assigned-user="Larry" data-status="In Progress" data-milestone="Milestone 2" data-priority="Urgent" data-tags="Tag 2"> -->
-                <!-- <tr id="task-<?= $i ?>" class="task-list-row" data-task-id=<?= $i ?> data-assigned-user=<?= $user->assigned; ?> data-status="In Progress" data-milestone="<?= $user->milestone; ?>" data-priority="<?= $user->priority; ?>" data-tags="<?= $user->tags; ?>"> -->
+               
+                <tr id="task-<?= $i ?>" class="task-list-row" data-task-id=<?= $i ?> 
+              
+                data-drug="<?=$namedrug; ?>" 
+                data-otherdrug="<?=$idotherdrug; ?>" 
+             >
 
-                <tr>
+              
 
-                  <td> <?= $alldrung; ?> </td>
+                  <td> <?= $namedrug; ?> </td>
+                  <td> <?= $idotherdrug; ?> </td>
+
                   <td> <?= $summary; ?> </td>
                   <td> <?= $severity; ?> </td>
                   <td> <?= $documentation; ?> </td>
