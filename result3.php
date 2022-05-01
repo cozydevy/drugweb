@@ -151,20 +151,13 @@ $dataresult = $json;
 
   <div class="container">
     <div class="row">
-      <select id="example" multiple="multiple">
-        <option value="cheese">Cheese</option>
-        <option value="tomatoes">Tomatoes</option>
-        <option value="mozarella">Mozzarella</option>
-        <option value="mushrooms">Mushrooms</option>
-        <option value="pepperoni">Pepperoni</option>
-        <option value="onions">Onions</option>
-      </select>
+
       <table class="table">
         <thead>
           <tr class="filters">
             <th>Drug
               <select id="drug-filter" multiple="multiple" class="form-control">
-                <option>All</option>
+
 
                 <?php
                 $numcounts = count($dataresult['interaction']);
@@ -184,7 +177,6 @@ $dataresult = $json;
             </th>
             <th>Other drug
               <select id="otherdrug-filter" multiple="multiple class=" form-control">
-                <option>All</option>
 
 
                 <?php
@@ -261,12 +253,14 @@ $dataresult = $json;
             // }
 
             $numcount = count($dataresult['interaction']);
-            $dataall = array();
+
 
             for ($k = 0; $k < $numcount; $k++) {
+
               $namedrug = array_keys($dataresult['interaction'])[$k];
               $countindrug = count($dataresult['interaction'][$namedrug]);
               for ($p = 0; $p < $countindrug; $p++) {
+                $dataall = array();
                 $iddrug = $dataresult['interaction'][$namedrug][$p]["drugname"];
                 $idotherdrug = $dataresult['interaction'][$namedrug][$p]["otherdrugname"];
 
@@ -346,61 +340,72 @@ $dataresult = $json;
     $(document).ready(function() {
       var byDrug = [],
         byOtherdrug = [];
-       
+
 
       $('#example').multiselect({
         includeSelectAllOption: true,
-        selectAllValue: 'select-all-value'
+        selectAllValue: 'select-all-value',
+
       });
 
       $('#drug-filter').multiselect({
         includeSelectAllOption: true,
 
         selectAllValue: 'multiselect-all',
-      maxHeight: '300',
-    buttonWidth: '235',
-    onChange: function(element, checked) {
-        var brands = $('#drug-filter option:selected');
-        var selected = [];
-        var selector = '', cselector = '', nselector = '';
-        var $lis = $('.task-list-row');
-        $checked = $('#drug-filter option:selected');	
-				
-        if ($checked.length) {	
-        $(brands).each(function(index, brand){
-            selected.push([$(this).val()]);
-            byDrug.push([$(this).val()]);
-            if(selector === '') {
-								selector += "[data-category~='" + $(this).val() + "']";  					
-							} else {
-								selector += ",[data-category~='" + $(this).val() + "']";	
-							}				 
-        });
+        numberDisplayed: 1,
+        maxHeight: '300',
+        buttonWidth: '200',
+        onSelectAll: function(options) {
+          var $lis = $('.task-list-row');
+          $lis.show();
+        },
+        onChange: function(element, checked) {
+          var brands = $('#drug-filter option:selected');
+          var selected = [];
+          var selector = '';
+          var $lis = $('.task-list-row');
+          $checked = $('#drug-filter option:selected');
 
-      }else{
-        $lis.show();
-      }
+          if ($checked.length) {
+            $(brands).each(function(index, brand) {
+              selected.push([$(this).val()]);
+              byDrug.push([$(this).val()]);
+              if (selector === '') {
+                selector += "[data-category~='" + $(this).val() + "']";
+              } else {
+                selector += ",[data-category~='" + $(this).val() + "']";
+              }
+            });
+
+          } else {
+            $lis.show();
+          }
 
 
 
-   					
-				$lis.hide(); 
-				console.log(selector);
-		
 
-        if (selector === '') {			
-					$('.task-list-row').filter(selector).show();
-          console.log("xxx");
-				}else{
-          $('.task-list-row').filter(selector).show();
-          console.log("zz ");
+          $lis.hide();
+          console.log(selector);
+
+
+          if (selector === '') {
+            $lis.show();
+
+          } else {
+            $('.task-list-row').filter(selector).show();
+          }
+
         }
-
-    }
       });
       $('#otherdrug-filter').multiselect({
         includeSelectAllOption: true,
-        selectAllValue: 'select-all-value'
+        selectAllValue: 'multiselect-all',
+        numberDisplayed: 1,
+        nonSelectedText: "Select an option",
+        allSelectedText: "Selected all",
+        nSelectedText: "Selected",
+        maxHeight: '300',
+        buttonWidth: '235',
       });
 
 
