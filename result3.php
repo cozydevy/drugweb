@@ -1,9 +1,9 @@
 <?php
 
 $data = file_get_contents("php://input");
-$result=urldecode($data);
-$result1=str_replace("re=","",$result);
-$json = json_decode($result1, true );
+$result = urldecode($data);
+$result1 = str_replace("re=", "", $result);
+$json = json_decode($result1, true);
 
 
 
@@ -43,131 +43,72 @@ $dataresult = $json;
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
-  <link rel="stylesheet" type="text/css" href="css/result.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css" />
+  <!-- <link rel="stylesheet" type="text/css" href="css/result.css"> -->
 
 
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
-  <link href="      https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css
-      " rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+
   </script>
 
   <script>
     $(document).ready(function() {
       var storedArray = JSON.parse(sessionStorage.getItem("result"));
       console.log(storedArray);
+
+
+
       // Assigned User Dropdown Filter
-      $('#assigned-user-filter').on('change', function() {
-        var assignedUser = this.value;
-
-        if (assignedUser === 'None') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('assigned-user') != assignedUser;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('assigned-user') == assignedUser;
-          }).show();
-        }
-      });
-
-
-      // Task Status Dropdown Filter
-      $('#status-filter').on('change', function() {
-        var taskStatus = this.value;
-
-        if (taskStatus === 'Any') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('status') != taskStatus;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('status') == taskStatus;
-          }).show();
-        }
-      });
 
 
 
-      // Task Milestone Dropdown Filter
-      $('#milestone-filter').on('change', function() {
-        var taskMilestone = this.value;
-
-        if (taskMilestone === 'None') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('milestone') != taskMilestone;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('milestone') == taskMilestone;
-          }).show();
-        }
-      });
 
 
-      // Task Priority Dropdown Filter
-      $('#priority-filter').on('change', function() {
-        var taskPriority = this.value;
+      // Task drug Dropdown Filter
+      // $('#drug-filter').on('change', function() {
+      //   var drugStatus = this.value;
+      //   var arraydrug = [];
+      //   $('#drug-filter').change(function() {
+      //     arraydrug = $(this).val();
+      //     console.log(arraydrug);
 
-        if (taskPriority === 'Any') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('priority') != taskPriority;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('priority') == taskPriority;
-          }).show();
-        }
-      });
+      //   })
+      //   if (drugStatus === 'All') {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('drug') != drugStatus;
+      //     }).show();
+      //   } else {
+
+      //     $('.task-list-row').hide().filter(function() {
 
 
-      // Task Tags Dropdown Filter
-      $('#tags-filter').on('change', function() {
-        var taskTags = this.value;
+      //       return $(this).data('drug') == drugStatus;
 
-        if (taskTags === 'None') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('tags') != taskTags;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('tags') == taskTags;
-          }).show();
-        }
-      });
+      //     }).show();
+      //   }
+      // });
 
- // Task drug Dropdown Filter
- $('#drug-filter').on('change', function() {
-        var drugStatus = this.value;
+      // $('#otherdrug-filter').on('change', function() {
+      //   var otherdrugStatus = this.value;
 
-        if (drugStatus === 'All') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('drug') != drugStatus;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('drug') == drugStatus;
-          }).show();
-        }
-      });
-
-      $('#otherdrug-filter').on('change', function() {
-        var otherdrugStatus = this.value;
-
-        if (otherdrugStatus === 'All') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('otherdrug') != otherdrugStatus;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('otherdrug') == otherdrugStatus;
-          }).show();
-        }
-      });
+      //   if (otherdrugStatus === 'All') {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('otherdrug') != otherdrugStatus;
+      //     }).show();
+      //   } else {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('otherdrug') == otherdrugStatus;
+      //     }).show();
+      //   }
+      // });
 
       $('#severity-filter').on('change', function() {
         var severitystatus = this.value;
@@ -182,7 +123,7 @@ $dataresult = $json;
           }).show();
         }
       });
-     
+
       $('#documentation-filter').on('change', function() {
         var docsstatus = this.value;
 
@@ -196,7 +137,7 @@ $dataresult = $json;
           }).show();
         }
       });
-     
+
 
     });
   </script>
@@ -210,47 +151,54 @@ $dataresult = $json;
 
   <div class="container">
     <div class="row">
-
+      <select id="example" multiple="multiple">
+        <option value="cheese">Cheese</option>
+        <option value="tomatoes">Tomatoes</option>
+        <option value="mozarella">Mozzarella</option>
+        <option value="mushrooms">Mushrooms</option>
+        <option value="pepperoni">Pepperoni</option>
+        <option value="onions">Onions</option>
+      </select>
       <table class="table">
         <thead>
           <tr class="filters">
             <th>Drug
-              <select id="drug-filter" class="form-control">
-              <option>All</option>
+              <select id="drug-filter" multiple="multiple" class="form-control">
+                <option>All</option>
 
                 <?php
-                   $numcounts = count($dataresult['interaction']);
+                $numcounts = count($dataresult['interaction']);
 
-                   for ($k = 0; $k < $numcounts; $k++) {
-                     $namedrug = array_keys($dataresult['interaction'])[$k];
+                for ($k = 0; $k < $numcounts; $k++) {
+                  $namedrug = array_keys($dataresult['interaction'])[$k];
 
                 ?>
-                <option><?=$namedrug; ?></option>
-                      <?php 
-                   }
-                  
-                      ?>
-               
-                      
+                  <option><?= $namedrug; ?></option>
+                <?php
+                }
+
+                ?>
+
+
               </select>
             </th>
             <th>Other drug
-              <select id="otherdrug-filter" class="form-control">
-              <option>All</option>
+              <select id="otherdrug-filter" multiple="multiple class=" form-control">
+                <option>All</option>
 
-                
-                      <?php 
-               
-                   $countindrugs = count($dataresult['interaction'][$namedrug]);
-                   for ($p = 0; $p < $countindrugs; $p++) {
-                    $nameotherdrug = trim($dataresult['interaction'][$namedrug][$p]["otherdrugname"]);
 
-                      ?>
-                <option><?=$nameotherdrug; ?></option>
-                <?php 
-                   }
-                   ?>
-                      
+                <?php
+
+                $countindrugs = count($dataresult['interaction'][$namedrug]);
+                for ($p = 0; $p < $countindrugs; $p++) {
+                  $nameotherdrug = trim($dataresult['interaction'][$namedrug][$p]["otherdrugname"]);
+
+                ?>
+                  <option><?= $nameotherdrug; ?></option>
+                <?php
+                }
+                ?>
+
               </select>
             </th>
             <th>severity
@@ -313,6 +261,7 @@ $dataresult = $json;
             // }
 
             $numcount = count($dataresult['interaction']);
+            $dataall = array();
 
             for ($k = 0; $k < $numcount; $k++) {
               $namedrug = array_keys($dataresult['interaction'])[$k];
@@ -321,7 +270,7 @@ $dataresult = $json;
                 $iddrug = $dataresult['interaction'][$namedrug][$p]["drugname"];
                 $idotherdrug = $dataresult['interaction'][$namedrug][$p]["otherdrugname"];
 
-                $alldrung = "- ".$iddrug."<br>"."- ".$idotherdrug;
+                $alldrung = "- " . $iddrug . "<br>" . "- " . $idotherdrug;
                 $summary = $dataresult['interaction'][$namedrug][$p]["summary"];
                 $severity = $dataresult['interaction'][$namedrug][$p]["severity"];
                 $severitySub = explode(":", $severity);
@@ -336,22 +285,21 @@ $dataresult = $json;
                 $clarification = $dataresult['interaction'][$namedrug][$p]["clarification"];
                 $reference = $dataresult['interaction'][$namedrug][$p]["reference"];
 
+                array_push($dataall, $namedrug, $idotherdrug);
+
+
+                $aa = implode(" ", $dataall);
+
 
 
 
 
 
             ?>
-               
-                <tr id="task-<?= $i ?>" class="task-list-row" data-task-id=<?= $i ?> 
-              
-                data-drug="<?=$namedrug; ?>" 
-                data-otherdrug="<?=$idotherdrug; ?>" 
-                data-severity="<?=$severitySubs; ?>" 
-                data-docs="<?=$docsubs; ?>" 
-             >
 
-              
+                <tr id="task-<?= $i ?>" class="task-list-row" data-category="<?= $aa; ?>" data-task-id=<?= $i ?> data-drug="<?= $namedrug; ?>" data-otherdrug="<?= $idotherdrug; ?>" data-severity="<?= $severitySubs; ?>" data-docs="<?= $docsubs; ?>">
+
+
 
                   <td> <?= $namedrug; ?> </td>
                   <td> <?= $idotherdrug; ?> </td>
@@ -394,6 +342,88 @@ $dataresult = $json;
       </div> -->
     </div>
   </div>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var byDrug = [],
+        byOtherdrug = [];
+       
+
+      $('#example').multiselect({
+        includeSelectAllOption: true,
+        selectAllValue: 'select-all-value'
+      });
+
+      $('#drug-filter').multiselect({
+        includeSelectAllOption: true,
+
+        selectAllValue: 'multiselect-all',
+      maxHeight: '300',
+    buttonWidth: '235',
+    onChange: function(element, checked) {
+        var brands = $('#drug-filter option:selected');
+        var selected = [];
+        var selector = '', cselector = '', nselector = '';
+        var $lis = $('.task-list-row');
+        $checked = $('#drug-filter option:selected');	
+				
+        if ($checked.length) {	
+        $(brands).each(function(index, brand){
+            selected.push([$(this).val()]);
+            byDrug.push([$(this).val()]);
+            if(selector === '') {
+								selector += "[data-category~='" + $(this).val() + "']";  					
+							} else {
+								selector += ",[data-category~='" + $(this).val() + "']";	
+							}				 
+        });
+
+      }else{
+        $lis.show();
+      }
+
+
+
+   					
+				$lis.hide(); 
+				console.log(selector);
+		
+
+        if (selector === '') {			
+					$('.task-list-row').filter(selector).show();
+          console.log("xxx");
+				}else{
+          $('.task-list-row').filter(selector).show();
+          console.log("zz ");
+        }
+
+    }
+      });
+      $('#otherdrug-filter').multiselect({
+        includeSelectAllOption: true,
+        selectAllValue: 'select-all-value'
+      });
+
+
+
+
+
+
+    });
+  </script>
+  <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+
 </body>
 
 </html>
+
+<!-- 
+if (this.checked) {
+          byDrug.push("[data-category~='" + $(this).attr("value") + "']");
+        } else {
+          var myIndex = byDrug.indexOf("[data-category~='" + $(this).attr("value") + "']");
+
+          if (myIndex !== -1) {
+            byDrug.splice(myIndex, 1);
+          }
+        }
+        console.log(byDrug); -->
