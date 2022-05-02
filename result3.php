@@ -206,7 +206,7 @@ $dataresult = $json;
               </select>
             </th>
             <th>documentation
-              <select id="documentation-filter" class="form-control">
+              <select id="documentation-filter" multiple="multiple class=" form-control">
                 <option>Excellent</option>
                 <option>Good</option>
                 <option>Fair</option>
@@ -288,9 +288,6 @@ $dataresult = $json;
 
 
 
-
-
-
             ?>
 
                 <tr id="task-<?= $i ?>" class="task-list-row" data-category="<?= $aa; ?>" data-task-id=<?= $i ?> data-drug="<?= $namedrug; ?>" data-otherdrug="<?= $idotherdrug; ?>" data-severity="<?= $severitySubs; ?>" data-docs="<?= $docsubs; ?>">
@@ -342,10 +339,13 @@ $dataresult = $json;
     $(document).ready(function() {
       var byDrug = [],
         byOtherdrug = [],
-        bySeverity = [];
+        bySeverity = [],
+        byDoc = [];;
       var drugselector = '';
       var otherselector = '';
       var severityselector = '';
+      var docselector = '';
+
       var $lis = $('.task-list-row');
 
 
@@ -382,22 +382,42 @@ $dataresult = $json;
           $lis.hide();
           console.log(drugselector);
 
-          if (drugselector === '' && otherselector === '' && severityselector === '') {
+          if (drugselector === '' && otherselector === '' && severityselector === '' && docselector === '') {
             $lis.show();
-          } else if (drugselector === '' && severityselector === '') {
-            $('.task-list-row').filter(otherselector).show();
-          } else if (otherselector === '' && severityselector === '') {
-            $('.task-list-row').filter(drugselector).show();
-          } else if (drugselector === '' && otherselector === '') {
+
+          } else if (drugselector === '' && otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(docselector).show();
+          } else if (drugselector === '' && otherselector === '' && docselector === '') {
             $('.task-list-row').filter(severityselector).show();
-          } else if (drugselector === '') {
+          } else if (drugselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+          } else if (otherselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).show();
+          } else if (drugselector === '' && severityselector === '') {
+            $('.task-list-row').filter(otherselector).filter(docselector).show();
+          } else if (drugselector === '' && docselector === '') {
             $('.task-list-row').filter(otherselector).filter(severityselector).show();
-          } else if (otherselector === '') {
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).filter(docselector).show();
+
+          } else if (otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(docselector).show();
+          } else if (otherselector === '' && docselector === '') {
             $('.task-list-row').filter(drugselector).filter(severityselector).show();
-          } else if (severityselector === '') {
+
+          } else if (severityselector === '' && docselector === '') {
             $('.task-list-row').filter(drugselector).filter(otherselector).show();
-          } else {
+
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).filter(docselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).filter(docselector).show();
+          } else if (severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(docselector).show();
+          } else if (docselector === '') {
             $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).filter(docselector).show();
           }
         }
       });
@@ -433,22 +453,42 @@ $dataresult = $json;
           }
           $lis.hide();
           console.log(otherselector);
-          if (drugselector === '' && otherselector === '' && severityselector === '') {
+          if (drugselector === '' && otherselector === '' && severityselector === '' && docselector === '') {
             $lis.show();
-          } else if (drugselector === '' && severityselector === '') {
-            $('.task-list-row').filter(otherselector).show();
-          } else if (otherselector === '' && severityselector === '') {
-            $('.task-list-row').filter(drugselector).show();
-          } else if (drugselector === '' && otherselector === '') {
+
+          } else if (drugselector === '' && otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(docselector).show();
+          } else if (drugselector === '' && otherselector === '' && docselector === '') {
             $('.task-list-row').filter(severityselector).show();
-          } else if (drugselector === '') {
+          } else if (drugselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+          } else if (otherselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).show();
+          } else if (drugselector === '' && severityselector === '') {
+            $('.task-list-row').filter(otherselector).filter(docselector).show();
+          } else if (drugselector === '' && docselector === '') {
             $('.task-list-row').filter(otherselector).filter(severityselector).show();
-          } else if (otherselector === '') {
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).filter(docselector).show();
+
+          } else if (otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(docselector).show();
+          } else if (otherselector === '' && docselector === '') {
             $('.task-list-row').filter(drugselector).filter(severityselector).show();
-          } else if (severityselector === '') {
+
+          } else if (severityselector === '' && docselector === '') {
             $('.task-list-row').filter(drugselector).filter(otherselector).show();
-          } else {
+
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).filter(docselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).filter(docselector).show();
+          } else if (severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(docselector).show();
+          } else if (docselector === '') {
             $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).filter(docselector).show();
           }
         }
       });
@@ -485,26 +525,118 @@ $dataresult = $json;
           $lis.hide();
           console.log(severityselector);
 
-          if (drugselector === '' && otherselector === '' && severityselector === '') {
+          if (drugselector === '' && otherselector === '' && severityselector === '' && docselector === '') {
             $lis.show();
-          } else if (drugselector === '' && severityselector === '') {
-            $('.task-list-row').filter(otherselector).show();
-          } else if (otherselector === '' && severityselector === '') {
-            $('.task-list-row').filter(drugselector).show();
-          } else if (drugselector === '' && otherselector === '') {
+
+          } else if (drugselector === '' && otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(docselector).show();
+          } else if (drugselector === '' && otherselector === '' && docselector === '') {
             $('.task-list-row').filter(severityselector).show();
-          } else if (drugselector === '') {
+          } else if (drugselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+          } else if (otherselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).show();
+          } else if (drugselector === '' && severityselector === '') {
+            $('.task-list-row').filter(otherselector).filter(docselector).show();
+          } else if (drugselector === '' && docselector === '') {
             $('.task-list-row').filter(otherselector).filter(severityselector).show();
-          } else if (otherselector === '') {
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).filter(docselector).show();
+
+          } else if (otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(docselector).show();
+          } else if (otherselector === '' && docselector === '') {
             $('.task-list-row').filter(drugselector).filter(severityselector).show();
-          } else if (severityselector === '') {
+
+          } else if (severityselector === '' && docselector === '') {
             $('.task-list-row').filter(drugselector).filter(otherselector).show();
-          } else {
+
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).filter(docselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).filter(docselector).show();
+          } else if (severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(docselector).show();
+          } else if (docselector === '') {
             $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).filter(docselector).show();
           }
         }
       });
+      $('#documentation-filter').multiselect({
+        includeSelectAllOption: true,
 
+        selectAllValue: 'multiselect-all',
+        numberDisplayed: 1,
+        maxHeight: '300',
+        buttonWidth: '200',
+        onSelectAll: function(options) {
+          $lis.show();
+        },
+        onChange: function(element, checked) {
+          var brands = $('#documentation-filter option:selected');
+          var docselected = [];
+
+          $checked = $('#documentation-filter option:selected');
+          docselector = '';
+          if ($checked.length) {
+
+            $(brands).each(function(index, brand) {
+              docselected.push([$(this).val()]);
+              byDoc.push([$(this).val()]);
+              if (docselector === '') {
+                docselector += "[data-category~='" + $(this).val() + "']";
+              } else {
+                docselected += ",[data-category~='" + $(this).val() + "']";
+              }
+            });
+
+          } else {
+            $lis.show();
+          }
+          $lis.hide();
+          console.log(docselector);
+
+          if (drugselector === '' && otherselector === '' && severityselector === '' && docselector === '') {
+            $lis.show();
+
+          } else if (drugselector === '' && otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(docselector).show();
+          } else if (drugselector === '' && otherselector === '' && docselector === '') {
+            $('.task-list-row').filter(severityselector).show();
+          } else if (drugselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+          } else if (otherselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).show();
+          } else if (drugselector === '' && severityselector === '') {
+            $('.task-list-row').filter(otherselector).filter(docselector).show();
+          } else if (drugselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).show();
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).filter(docselector).show();
+
+          } else if (otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(docselector).show();
+          } else if (otherselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).show();
+
+          } else if (severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).show();
+
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).filter(docselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).filter(docselector).show();
+          } else if (severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(docselector).show();
+          } else if (docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).filter(docselector).show();
+          }
+        }
+      });
     });
   </script>
   <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
