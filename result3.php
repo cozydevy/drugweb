@@ -110,33 +110,33 @@ $dataresult = $json;
       //   }
       // });
 
-      $('#severity-filter').on('change', function() {
-        var severitystatus = this.value;
+      // $('#severity-filter').on('change', function() {
+      //   var severitystatus = this.value;
 
-        if (severitystatus === 'All') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('severity') != severitystatus;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('otherdrug') == severitystatus;
-          }).show();
-        }
-      });
+      //   if (severitystatus === 'All') {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('severity') != severitystatus;
+      //     }).show();
+      //   } else {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('otherdrug') == severitystatus;
+      //     }).show();
+      //   }
+      // });
 
-      $('#documentation-filter').on('change', function() {
-        var docsstatus = this.value;
+      // $('#documentation-filter').on('change', function() {
+      //   var docsstatus = this.value;
 
-        if (docsstatus === 'All') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('docs') != docsstatus;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('docs') == docsstatus;
-          }).show();
-        }
-      });
+      //   if (docsstatus === 'All') {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('docs') != docsstatus;
+      //     }).show();
+      //   } else {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('docs') == docsstatus;
+      //     }).show();
+      //   }
+      // });
 
 
     });
@@ -340,13 +340,11 @@ $dataresult = $json;
     $(document).ready(function() {
       var byDrug = [],
         byOtherdrug = [];
+      var drugselector = '';
+      var otherselector = '';
+      var $lis = $('.task-list-row');
 
 
-      $('#example').multiselect({
-        includeSelectAllOption: true,
-        selectAllValue: 'select-all-value',
-
-      });
 
       $('#drug-filter').multiselect({
         includeSelectAllOption: true,
@@ -356,60 +354,119 @@ $dataresult = $json;
         maxHeight: '300',
         buttonWidth: '200',
         onSelectAll: function(options) {
-          var $lis = $('.task-list-row');
           $lis.show();
         },
         onChange: function(element, checked) {
           var brands = $('#drug-filter option:selected');
-          var selected = [];
-          var selector = '';
-          var $lis = $('.task-list-row');
-          $checked = $('#drug-filter option:selected');
+          var drugselected = [];
 
+
+          $checked = $('#drug-filter option:selected');
+          drugselector = '';
           if ($checked.length) {
             $(brands).each(function(index, brand) {
-              selected.push([$(this).val()]);
+              drugselected.push([$(this).val()]);
               byDrug.push([$(this).val()]);
-              if (selector === '') {
-                selector += "[data-category~='" + $(this).val() + "']";
+              if (drugselector === '') {
+                drugselector += "[data-category~='" + $(this).val() + "']";
               } else {
-                selector += ",[data-category~='" + $(this).val() + "']";
+                drugselector += ",[data-category~='" + $(this).val() + "']";
               }
             });
 
           } else {
             $lis.show();
           }
-
-
-
-
           $lis.hide();
-          console.log(selector);
+          console.log(drugselector);
 
-
-          if (selector === '') {
+          if (drugselector === '' && otherselector === '') {
             $lis.show();
 
+
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+
+
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).show();
           } else {
-            $('.task-list-row').filter(selector).show();
+            $('.task-list-row').filter(drugselector).filter(otherselector).show();
+
           }
+
 
         }
       });
+      // $('#otherdrug-filter').multiselect({
+      //   includeSelectAllOption: true,
+      //   selectAllValue: 'multiselect-all',
+      //   numberDisplayed: 1,
+      //   nonSelectedText: "Select an option",
+      //   allSelectedText: "Selected all",
+      //   nSelectedText: "Selected",
+      //   maxHeight: '300',
+      //   buttonWidth: '235',
+      // });
+
+
       $('#otherdrug-filter').multiselect({
         includeSelectAllOption: true,
+
         selectAllValue: 'multiselect-all',
         numberDisplayed: 1,
-        nonSelectedText: "Select an option",
-        allSelectedText: "Selected all",
-        nSelectedText: "Selected",
         maxHeight: '300',
-        buttonWidth: '235',
+        buttonWidth: '200',
+        onSelectAll: function(options) {
+
+          $lis.show();
+        },
+        onChange: function(element, checked) {
+          var brands = $('#otherdrug-filter option:selected');
+          var otherselected = [];
+          $checked = $('#otherdrug-filter option:selected');
+          otherselector = '';
+          if ($checked.length) {
+            $(brands).each(function(index, brand) {
+              otherselected.push([$(this).val()]);
+              byOtherdrug.push([$(this).val()]);
+              if (otherselector === '') {
+                otherselector += "[data-category~='" + $(this).val() + "']";
+              } else {
+                otherselector += ",[data-category~='" + $(this).val() + "']";
+              }
+            });
+
+          } else {
+            $lis.show();
+          }
+          $lis.hide();
+          console.log(otherselector);
+
+          if (drugselector === '' && otherselector === '') {
+            $lis.show();
+
+
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+
+
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).show();
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).show();
+
+          }
+
+
+
+
+
+
+
+
+        }
       });
-
-
-
 
 
 
