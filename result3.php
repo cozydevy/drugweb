@@ -194,25 +194,27 @@ $dataresult = $json;
               </select>
             </th>
             <th>severity
-              <select id="severity-filter" class="form-control">
-                <option>All</option>
+              <select id="severity-filter" multiple="multiple class=" form-control">
+
+                <option>Contraindicated</option>
+                <option>Major</option>
+                <option>Moderate</option>
+                <option>Minor</option>
                 <option>Unknown</option>
+
 
               </select>
             </th>
             <th>documentation
               <select id="documentation-filter" class="form-control">
-                <option>All</option>
+                <option>Excellent</option>
+                <option>Good</option>
+                <option>Fair</option>
                 <option>Unknown</option>
 
               </select>
             </th>
-            <th>clarification
-              <select id="clarification-filter" class="form-control">
-                <option>None</option>
 
-              </select>
-            </th>
           </tr>
         </thead>
       </table>
@@ -279,7 +281,7 @@ $dataresult = $json;
                 $clarification = $dataresult['interaction'][$namedrug][$p]["clarification"];
                 $reference = $dataresult['interaction'][$namedrug][$p]["reference"];
 
-                array_push($dataall, $namedrug, $idotherdrug);
+                array_push($dataall, $namedrug, $idotherdrug, $severitySubs, $docsubs);
 
 
                 $aa = implode(" ", $dataall);
@@ -339,11 +341,12 @@ $dataresult = $json;
   <script type="text/javascript">
     $(document).ready(function() {
       var byDrug = [],
-        byOtherdrug = [];
+        byOtherdrug = [],
+        bySeverity = [];
       var drugselector = '';
       var otherselector = '';
+      var severityselector = '';
       var $lis = $('.task-list-row');
-
 
 
       $('#drug-filter').multiselect({
@@ -359,7 +362,6 @@ $dataresult = $json;
         onChange: function(element, checked) {
           var brands = $('#drug-filter option:selected');
           var drugselected = [];
-
 
           $checked = $('#drug-filter option:selected');
           drugselector = '';
@@ -380,45 +382,34 @@ $dataresult = $json;
           $lis.hide();
           console.log(drugselector);
 
-          if (drugselector === '' && otherselector === '') {
+          if (drugselector === '' && otherselector === '' && severityselector === '') {
             $lis.show();
-
-
-          } else if (drugselector === '') {
+          } else if (drugselector === '' && severityselector === '') {
             $('.task-list-row').filter(otherselector).show();
-
-
-          } else if (otherselector === '') {
+          } else if (otherselector === '' && severityselector === '') {
             $('.task-list-row').filter(drugselector).show();
-          } else {
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).show();
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).show();
+          } else if (severityselector === '') {
             $('.task-list-row').filter(drugselector).filter(otherselector).show();
-
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
           }
-
-
         }
       });
-      // $('#otherdrug-filter').multiselect({
-      //   includeSelectAllOption: true,
-      //   selectAllValue: 'multiselect-all',
-      //   numberDisplayed: 1,
-      //   nonSelectedText: "Select an option",
-      //   allSelectedText: "Selected all",
-      //   nSelectedText: "Selected",
-      //   maxHeight: '300',
-      //   buttonWidth: '235',
-      // });
 
 
       $('#otherdrug-filter').multiselect({
         includeSelectAllOption: true,
-
         selectAllValue: 'multiselect-all',
         numberDisplayed: 1,
         maxHeight: '300',
         buttonWidth: '200',
         onSelectAll: function(options) {
-
           $lis.show();
         },
         onChange: function(element, checked) {
@@ -442,33 +433,77 @@ $dataresult = $json;
           }
           $lis.hide();
           console.log(otherselector);
-
-          if (drugselector === '' && otherselector === '') {
+          if (drugselector === '' && otherselector === '' && severityselector === '') {
             $lis.show();
-
-
-          } else if (drugselector === '') {
+          } else if (drugselector === '' && severityselector === '') {
             $('.task-list-row').filter(otherselector).show();
-
-
-          } else if (otherselector === '') {
+          } else if (otherselector === '' && severityselector === '') {
             $('.task-list-row').filter(drugselector).show();
-          } else {
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).show();
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).show();
+          } else if (severityselector === '') {
             $('.task-list-row').filter(drugselector).filter(otherselector).show();
-
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
           }
-
-
-
-
-
-
-
-
         }
       });
 
+      $('#severity-filter').multiselect({
+        includeSelectAllOption: true,
+        selectAllValue: 'multiselect-all',
+        numberDisplayed: 1,
+        maxHeight: '300',
+        buttonWidth: '200',
+        onSelectAll: function(options) {
+          $lis.show();
+        },
+        onChange: function(element, checked) {
+          var brands = $('#severity-filter option:selected');
+          var severityselected = [];
+          $checked = $('#severity-filter option:selected');
+          severityselector = '';
+          if ($checked.length) {
+            $(brands).each(function(index, brand) {
+              severityselected.push([$(this).val()]);
 
+              bySeverity.push([$(this).val()]);
+              if (severityselector === '') {
+                severityselector += "[data-category~='" + $(this).val() + "']";
+              } else {
+                severityselector += ",[data-category~='" + $(this).val() + "']";
+              }
+            });
+
+          } else {
+            $lis.show();
+          }
+          $lis.hide();
+          console.log(severityselector);
+
+          if (drugselector === '' && otherselector === '' && severityselector === '') {
+            $lis.show();
+          } else if (drugselector === '' && severityselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+          } else if (otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(drugselector).show();
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).show();
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).show();
+          } else if (severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).show();
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
+          }
+        }
+      });
 
     });
   </script>
