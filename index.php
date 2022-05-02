@@ -32,7 +32,7 @@ session_start();
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <script>
     var res = 0;
-
+    var ii=0;
     $(document).ready(function() {
       console.log("document loaded");
       $.ajax({
@@ -55,9 +55,20 @@ session_start();
           $.cookie('nameotherdrug', JSON.stringify(result.otherdrug));
           var storedAry = JSON.parse($.cookie('nameotherdrug'));
           console.log(storedAry)
+          
         }
       });
-    });
+
+    
+      if($.cookie('nameotherdrug')==""){
+    
+        location.reload();
+        
+      
+      }
+    }
+    
+    );
   </script>
 
 </head>
