@@ -1,40 +1,33 @@
 <?php
 session_start();
-$dataresults = "";
-// $data = file_get_contents("php://input");
-// if (isset($_COOKIE['namedrug'])) {
+$resultotherdrug = "";
 
-//   $resultdrug = json_decode($_COOKIE['namedrug'], true);
-// } else {
-// }
-
-// if ($data !== "") {
+$data = file_get_contents("php://input");
+if ($data) {
 
 
-//   $result = urldecode($data);
-//   $result1 = str_replace("res=", "", $result);
-//   $json = json_decode($result1, true);
+  $result = urldecode($data);
+  $result1 = str_replace("re=", "", $result);
+  $json = json_decode($result1, true);
 
 
 
-//   // $dataresult = json_decode($data, true);
-//   $dataresult = $json;
-//   $dataresults = $dataresult['otherdrug'];
+  // $dataresult = json_decode($data, true);
+  $dataresult = $json;
+  $dataresults = $dataresult['otherdrug'];
 
 
-//   $resultotherdrug = $dataresults;
-// } else {
-//   $resultotherdrug = "";
-//   unset($_COOKIE['namedrug']);
+  $resultotherdrug = $dataresults;
+} else {
+  unset($_COOKIE['namedrug']);
+  $resultotherdrug = "";
 
-// }
-
+}
 ?>
 <!DOCTYPE html>
 <html>
 
 <head>
-
   <title>Drug</title>
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -45,7 +38,7 @@ $dataresults = "";
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
   <link rel="stylesheet" type="text/css" href="src/bootstrap-duallistbox.css">
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script> -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
   <script src="src/jquery.bootstrap-duallistbox.js"></script>
 
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
@@ -59,12 +52,60 @@ $dataresults = "";
   <script src="js/jquery.redirect.js"></script>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+  
   <script>
-    if (window.history.replaceState) {
-      window.history.replaceState(null, null, window.location.href);
-    }
+    var res = 0;
+    var ii = 0;
+    $(document).ready(function() {
+      console.log("document loaded");
+      $.ajax({
+        url: 'http://127.0.0.1/drugapi/api/drug/read.php',
+        data: {},
+        type: 'get',
+        success: function(result) {
+          console.log(result)
+
+          $.cookie('namedrug', JSON.stringify(result.drug));
+          var storedAry = JSON.parse($.cookie('namedrug'));
+        }
+      });
+      $.ajax({
+        url: 'http://127.0.0.1/drugapi/api/otherdrug/read.php',
+        data: {},
+        type: 'get',
+        success: function(result) {
+          console.log(result.otherdrug)
+
+          var re = JSON.stringify(result);
+
+          // var storedArys = JSON.parse($.cookie('nameotherdrug'));
+
+
+
+          window.onload = function() {
+
+            if (!window.location.hash) {
+
+              window.location = window.location + '#search';
+              $.redirect('http://127.0.0.1/webdrug/', {
+                re
+              }, "POST");
+
+            }
+          }
+
+
+
+
+        }
+      });
+
+
+
+
+    });
   </script>
- 
+
 </head>
 
 
@@ -74,7 +115,22 @@ $dataresults = "";
 
     <?php
 
+    //  $arr = json_decode( $resultdrug );
+    $resultdrug="";
+if( !isset($_COOKIE['namedrug'])){
+  $resultdrug="";
   
+}else{
+  $resultdrug = json_decode($_COOKIE['namedrug'], true);
+
+}
+
+    // $arr = json_decode('[{"var1":"9","var2":"16","var3":"16"},{"var1":"8","var2":"15","var3":"15"}]',true);
+
+    // foreach($arr as $item) { //foreach element in $arr
+    //     $uses = $item['var1']; //etc
+    //     echo $users;
+    // }
     ?>
 
 
@@ -85,36 +141,15 @@ $dataresults = "";
 
       <form id="demoform1" action="#" method="post">
 
-        <select id="list1" multiple="multiple" size="10" name="duallistbox_demo1[]" class="demo1">
-         
+        <select multiple="multiple" size="10" name="duallistbox_demo1[]" class="demo1">
+          <?php
 
-          <script>
-            var htmls = '';
-            $.ajax({
-              url: 'http://127.0.0.1/drugapi/api/drug/read.php',
-              data: {},
-              type: 'get',
-              success: function(result) {
-                // console.log(result)
-                const drugs = result.drug;
-                console.log(drugs);
-                
-        
+          foreach ($resultdrug as $item) { //foreach element in $arr
+          ?>
 
-                drugs.forEach((element, index, array) => {
-               
-                  htmls += '<option value=' + element.id + '>' + element.drugname + '</option>';
+            <option value="<?= $item['id'] ?>"><?= $item['drugname'] ?> </option>
 
-                });
-              
-              },
-              async: false
-            });
-
-            document.write(htmls);
-           
-          </script>
-         
+          <?php } ?>
 
         </select>
         <br>
@@ -136,33 +171,14 @@ $dataresults = "";
       <form id="demoform2" action="#" method="post">
 
         <select multiple="multiple" size="10" name="duallistbox_demo2[]" class="demo2">
-        <script>
-            var htmls2 = '';
-            $.ajax({
-              url: 'http://127.0.0.1/drugapi/api/otherdrug/read.php',
-              data: {},
-              type: 'get',
-              success: function(result) {
-                // console.log(result)
-                const otherdrugs = result.otherdrug;
-                console.log(otherdrugs);
-                
-        
+          <?php
 
-                otherdrugs.forEach((element, index, array) => {
-               
-                  htmls2 += '<option value=' + element.id + '>' + element.otherdrugname + '</option>';
+          foreach ($resultotherdrug as $item) { //foreach element in $arr
+          ?>
 
-                });
-              
-              },
-              async: false
-            });
+            <option value="<?= $item['id'] ?>"><?= $item['otherdrugname'] ?> </option>
 
-            document.write(htmls2);
-           
-          </script>
-         
+          <?php } ?>
 
 
         </select>
@@ -190,12 +206,9 @@ $dataresults = "";
       <button id="btndata" type="button" class="btn btn-primary">Search data</button>
     </div>
 
-    <div id="list22"></div>
-
   </div>
 
   </div>
-
 
 
   <script>
@@ -266,7 +279,7 @@ $dataresults = "";
       }
 
       const drugsearch = JSON.stringify(drugs);
-      // console.log(drugsearch)
+      console.log(drugsearch)
 
 
       $.ajax({
@@ -281,7 +294,7 @@ $dataresults = "";
 
           var re = JSON.stringify(result);
 
-          // console.log(result)
+          console.log(result)
 
           $.redirect('http://127.0.0.1/webdrug/result3.php', {
             re
@@ -296,7 +309,7 @@ $dataresults = "";
         },
         error: function(result) {
           // alert(JSON.stringify(result));
-          // console.log(JSON.stringify(result))
+          console.log(JSON.stringify(result))
         }
       });
       // console.log(JSON.stringify(drugs))
