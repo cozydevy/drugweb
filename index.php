@@ -1,33 +1,6 @@
 <?php
 session_start();
-$dataresults = "";
-// $data = file_get_contents("php://input");
-// if (isset($_COOKIE['namedrug'])) {
 
-//   $resultdrug = json_decode($_COOKIE['namedrug'], true);
-// } else {
-// }
-
-// if ($data !== "") {
-
-
-//   $result = urldecode($data);
-//   $result1 = str_replace("res=", "", $result);
-//   $json = json_decode($result1, true);
-
-
-
-//   // $dataresult = json_decode($data, true);
-//   $dataresult = $json;
-//   $dataresults = $dataresult['otherdrug'];
-
-
-//   $resultotherdrug = $dataresults;
-// } else {
-//   $resultotherdrug = "";
-//   unset($_COOKIE['namedrug']);
-
-// }
 
 ?>
 <!DOCTYPE html>
@@ -64,7 +37,7 @@ $dataresults = "";
       window.history.replaceState(null, null, window.location.href);
     }
   </script>
- 
+
 </head>
 
 
@@ -74,7 +47,7 @@ $dataresults = "";
 
     <?php
 
-  
+
     ?>
 
 
@@ -86,7 +59,7 @@ $dataresults = "";
       <form id="demoform1" action="#" method="post">
 
         <select id="list1" multiple="multiple" size="10" name="duallistbox_demo1[]" class="demo1">
-         
+
 
           <script>
             var htmls = '';
@@ -98,23 +71,22 @@ $dataresults = "";
                 // console.log(result)
                 const drugs = result.drug;
                 console.log(drugs);
-                
-        
+
+
 
                 drugs.forEach((element, index, array) => {
-               
+
                   htmls += '<option value=' + element.id + '>' + element.drugname + '</option>';
 
                 });
-              
+
               },
               async: false
             });
 
             document.write(htmls);
-           
           </script>
-         
+
 
         </select>
         <br>
@@ -136,7 +108,7 @@ $dataresults = "";
       <form id="demoform2" action="#" method="post">
 
         <select multiple="multiple" size="10" name="duallistbox_demo2[]" class="demo2">
-        <script>
+          <script>
             var htmls2 = '';
             $.ajax({
               url: 'http://127.0.0.1/drugapi/api/otherdrug/read.php',
@@ -146,23 +118,22 @@ $dataresults = "";
                 // console.log(result)
                 const otherdrugs = result.otherdrug;
                 console.log(otherdrugs);
-                
-        
+
+
 
                 otherdrugs.forEach((element, index, array) => {
-               
+
                   htmls2 += '<option value=' + element.id + '>' + element.otherdrugname + '</option>';
 
                 });
-              
+
               },
               async: false
             });
 
             document.write(htmls2);
-           
           </script>
-         
+
 
 
         </select>
@@ -237,24 +208,34 @@ $dataresults = "";
       var drugallname = $('select[name="duallistbox_demo1[]"]  option:selected').text();
       var otherdrugallname = $('select[name="duallistbox_demo2[]"]  option:selected').text();
 
-      const sp_drugallname = drugallname.split(" ");
-      const sp_otherdrugallname = otherdrugallname.split(")");
+    
+
+      var el1 = $('select[name="duallistbox_demo1[]_helper2"]')[0];
+      const arr_drugallname = getSelectValues(el1);
 
       var el = $('select[name="duallistbox_demo2[]_helper2"]')[0];
       const arr_otherdrugallname = getSelectValues(el);
 
-      for (let i = 0; i < drugall.length; i++) {
+      // for (let i = 0; i < drugall.length; i++) {
 
-        var id = drugall[i];
-        var namedrug = sp_drugallname[i];
+      //   var id = drugall[i];
+      //   var namedrug = sp_drugallname[i];
 
+      //   drugs.drug.push({
+      //     "iddrug": id,
+      //     "drugname": namedrug
+
+      //   })
+      // }
+      for (var i in drugall) {
+
+        var item = drugall[i];
+        var otherdrugname = arr_drugallname[i];
         drugs.drug.push({
-          "iddrug": id,
-          "drugname": namedrug
-
+          "iddrug": item,
+          "drugname": otherdrugname
         })
       }
-
       for (var j in otherdrugall) {
 
         var item = otherdrugall[j];
@@ -268,7 +249,6 @@ $dataresults = "";
       const drugsearch = JSON.stringify(drugs);
       // console.log(drugsearch)
 
-
       $.ajax({
         type: "POST",
         url: "http://127.0.0.1/drugapi/api/interact/read_one.php",
@@ -281,9 +261,9 @@ $dataresults = "";
 
           var re = JSON.stringify(result);
 
-          // console.log(result)
+          console.log(result)
 
-          $.redirect('http://127.0.0.1/webdrug/result3.php', {
+          $.redirect('http://127.0.0.1/webdrug/result.php', {
             re
           }, "POST");
 

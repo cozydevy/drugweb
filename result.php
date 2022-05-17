@@ -1,13 +1,38 @@
 <?php
 
-$filename = 'data.json';
-$filename2 = 'data2.json';
+$data = file_get_contents("php://input");
+$result = urldecode($data);
+$result1 = str_replace("re=", "", $result);
+$json = json_decode($result1, true);
 
-$data = file_get_contents($filename);
-$data2 = file_get_contents($filename2);
 
-$users = json_decode($data);
-$u = json_decode($data2);
+
+// $dataresult = json_decode($data, true);
+$dataresult = $json;
+
+
+//loop ดึงข้อมูล 
+//  $numcount = count($dataresult['interaction']);
+
+// for($k=0;$k<$numcount;$k++){
+//     $namedrug =array_keys($dataresult['interaction'])[$k];
+//   $countindrug=count($dataresult['interaction'][$namedrug]);
+//     for($p=0;$p<$countindrug;$p++)  {
+//       $iddrug=$dataresult['interaction'][$namedrug][$p]["iddrug"];
+//       $idotherdrug=$dataresult['interaction'][$namedrug][$p]["idotherdrug"];
+//       echo($iddrug);
+//       echo($idotherdrug);
+
+//     }
+
+
+// }
+
+//-----
+// $iddrug=$dataresult['interaction']["Busulfan"][0]["id"];
+
+
+// $numdrug = count($u->interaction);
 
 ?>
 <!DOCTYPE html>
@@ -18,111 +43,101 @@ $u = json_decode($data2);
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
-  <link rel="stylesheet" type="text/css" href="css/result.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css" />
+  <!-- <link rel="stylesheet" type="text/css" href="css/result.css"> -->
 
 
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
-  <link href="      https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css
-      " rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+
   </script>
 
   <script>
     $(document).ready(function() {
+      var storedArray = JSON.parse(sessionStorage.getItem("result"));
+      console.log(storedArray);
+
+
 
       // Assigned User Dropdown Filter
-      $('#assigned-user-filter').on('change', function() {
-        var assignedUser = this.value;
-
-        if (assignedUser === 'None') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('assigned-user') != assignedUser;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('assigned-user') == assignedUser;
-          }).show();
-        }
-      });
-
-
-      // Task Status Dropdown Filter
-      $('#status-filter').on('change', function() {
-        var taskStatus = this.value;
-
-        if (taskStatus === 'Any') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('status') != taskStatus;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('status') == taskStatus;
-          }).show();
-        }
-      });
 
 
 
-      // Task Milestone Dropdown Filter
-      $('#milestone-filter').on('change', function() {
-        var taskMilestone = this.value;
-
-        if (taskMilestone === 'None') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('milestone') != taskMilestone;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('milestone') == taskMilestone;
-          }).show();
-        }
-      });
 
 
-      // Task Priority Dropdown Filter
-      $('#priority-filter').on('change', function() {
-        var taskPriority = this.value;
+      // Task drug Dropdown Filter
+      // $('#drug-filter').on('change', function() {
+      //   var drugStatus = this.value;
+      //   var arraydrug = [];
+      //   $('#drug-filter').change(function() {
+      //     arraydrug = $(this).val();
+      //     console.log(arraydrug);
 
-        if (taskPriority === 'Any') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('priority') != taskPriority;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('priority') == taskPriority;
-          }).show();
-        }
-      });
+      //   })
+      //   if (drugStatus === 'All') {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('drug') != drugStatus;
+      //     }).show();
+      //   } else {
 
-
-      // Task Tags Dropdown Filter
-      $('#tags-filter').on('change', function() {
-        var taskTags = this.value;
-
-        if (taskTags === 'None') {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('tags') != taskTags;
-          }).show();
-        } else {
-          $('.task-list-row').hide().filter(function() {
-            return $(this).data('tags') == taskTags;
-          }).show();
-        }
-      });
+      //     $('.task-list-row').hide().filter(function() {
 
 
+      //       return $(this).data('drug') == drugStatus;
 
-      /*
-      future use for a text input filter
-      $('#search').on('click', function() {
-          $('.box').hide().filter(function() {
-              return $(this).data('order-number') == $('#search-criteria').val().trim();
-          }).show();
-      });*/
+      //     }).show();
+      //   }
+      // });
+
+      // $('#otherdrug-filter').on('change', function() {
+      //   var otherdrugStatus = this.value;
+
+      //   if (otherdrugStatus === 'All') {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('otherdrug') != otherdrugStatus;
+      //     }).show();
+      //   } else {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('otherdrug') == otherdrugStatus;
+      //     }).show();
+      //   }
+      // });
+
+      // $('#severity-filter').on('change', function() {
+      //   var severitystatus = this.value;
+
+      //   if (severitystatus === 'All') {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('severity') != severitystatus;
+      //     }).show();
+      //   } else {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('otherdrug') == severitystatus;
+      //     }).show();
+      //   }
+      // });
+
+      // $('#documentation-filter').on('change', function() {
+      //   var docsstatus = this.value;
+
+      //   if (docsstatus === 'All') {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('docs') != docsstatus;
+      //     }).show();
+      //   } else {
+      //     $('.task-list-row').hide().filter(function() {
+      //       return $(this).data('docs') == docsstatus;
+      //     }).show();
+      //   }
+      // });
+
 
     });
   </script>
@@ -131,7 +146,7 @@ $u = json_decode($data2);
 
 <body>
   <br>
-  <h2>Testing Task List Filters</h2>
+  <h2>Result</h2>
   <hr><br>
 
   <div class="container">
@@ -140,49 +155,66 @@ $u = json_decode($data2);
       <table class="table">
         <thead>
           <tr class="filters">
-            <th>Assigned User
-              <select id="assigned-user-filter" class="form-control">
-                <option>None</option>
-                <option>John</option>
-                <option>Rob</option>
-                <option>Larry</option>
-                <option>Donald</option>
-                <option>Roger</option>
+            <th>Drug
+              <select id="drug-filter" multiple="multiple" class="form-control">
+
+
+                <?php
+                $numcounts = count($dataresult['interaction']);
+
+                for ($k = 0; $k < $numcounts; $k++) {
+                  $namedrug = array_keys($dataresult['interaction'])[$k];
+
+                ?>
+                  <option><?= $namedrug; ?></option>
+                <?php
+                }
+
+                ?>
+
+
               </select>
             </th>
-            <th>Status
-              <select id="status-filter" class="form-control">
-                <option>Any</option>
-                <option>Not Started</option>
-                <option>In Progress</option>
-                <option>Completed</option>
+            <th>Other drug
+              <select id="otherdrug-filter" multiple="multiple class=" form-control">
+
+
+                <?php
+
+                $countindrugs = count($dataresult['interaction'][$namedrug]);
+                for ($p = 0; $p < $countindrugs; $p++) {
+                  $nameotherdrug = trim($dataresult['interaction'][$namedrug][$p]["otherdrugname"]);
+
+                ?>
+                  <option><?= $nameotherdrug; ?></option>
+                <?php
+                }
+                ?>
+
               </select>
             </th>
-            <th>Milestone
-              <select id="milestone-filter" class="form-control">
-                <option>None</option>
-                <option>Milestone 1</option>
-                <option>Milestone 2</option>
-                <option>Milestone 3</option>
+            <th>severity
+              <select id="severity-filter" multiple="multiple class=" form-control">
+
+                <option>Contraindicated</option>
+                <option>Major</option>
+                <option>Moderate</option>
+                <option>Minor</option>
+                <option>Unknown</option>
+
+
               </select>
             </th>
-            <th>Priority
-              <select id="priority-filter" class="form-control">
-                <option>Any</option>
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-                <option>Urgent</option>
+            <th>documentation
+              <select id="documentation-filter" multiple="multiple class=" form-control">
+                <option>Excellent</option>
+                <option>Good</option>
+                <option>Fair</option>
+                <option>Unknown</option>
+
               </select>
             </th>
-            <th>Tags
-              <select id="tags-filter" class="form-control">
-                <option>None</option>
-                <option>Tag 1</option>
-                <option>Tag 2</option>
-                <option>Tag 3</option>
-              </select>
-            </th>
+
           </tr>
         </thead>
       </table>
@@ -190,7 +222,7 @@ $u = json_decode($data2);
 
       <div class="panel panel-primary filterable">
         <div class="panel-heading">
-          <h3 class="panel-title">Tasks</h3>
+          <h3 class="panel-title">Result</h3>
           <div class="pull-right"></div>
         </div>
 
@@ -201,39 +233,83 @@ $u = json_decode($data2);
         <table id="task-list-tbl" class="table">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Created</th>
-              <th>Due Date</th>
-              <th>Priority</th>
-              <th>Milestone</th>
-              <th>Assigned User</th>
-              <th>Tags</th>
+              <th>Drug</th>
+              <th>Otherdrug</th>
+
+              <th>summary</th>
+              <th>severity</th>
+              <th>documentation</th>
+              <th>clarification</th>
+              <th>reference</th>
             </tr>
           </thead>
           <!-- body -->
           <tbody>
-            <?php 
-            $i=1;
-            foreach ($users as $user) {
-
-              ?>
-              <!-- <tr id="task-1" class="task-list-row" data-task-id="1" data-assigned-user="Larry" data-status="In Progress" data-milestone="Milestone 2" data-priority="Urgent" data-tags="Tag 2"> -->
-
-              <tr id="task-<?=$i?>" class="task-list-row" data-task-id=<?=$i ?> data-assigned-user=<?= $user->assigned; ?> data-status="In Progress" 
-              data-milestone="<?= $user->milestone; ?>" data-priority="<?=$user->priority; ?>" data-tags="<?=$user->tags; ?>" >
-                <td> <?= $user->title; ?> </td>
-                <td> <?= $user->created; ?> </td>
-                <td> <?= $user->dudate; ?> </td>
-                <td> <?= $user->priority; ?> </td>
-                <td> <?= $user->milestone; ?> </td>
-                <td> <?= $user->assigned; ?> </td>
-                <td> <?= $user->tags; ?> </td>
-
-              </tr>
             <?php
-          
-          $i++;
-          } ?>
+            $i = 1;
+            // for ($j = 0; $j < $numdrug; $j++) {
+
+            //   $interact->iddrug = $u->interaction[$i];
+
+
+            // }
+
+            $numcount = count($dataresult['interaction']);
+
+
+            for ($k = 0; $k < $numcount; $k++) {
+
+              $namedrug = array_keys($dataresult['interaction'])[$k];
+              $countindrug = count($dataresult['interaction'][$namedrug]);
+              for ($p = 0; $p < $countindrug; $p++) {
+                $dataall = array();
+                $iddrug = $dataresult['interaction'][$namedrug][$p]["drugname"];
+                $idotherdrug = $dataresult['interaction'][$namedrug][$p]["otherdrugname"];
+
+                $alldrung = "- " . $iddrug . "<br>" . "- " . $idotherdrug;
+                $summary = $dataresult['interaction'][$namedrug][$p]["summary"];
+                $severity = $dataresult['interaction'][$namedrug][$p]["severity"];
+                $severitySub = explode(":", $severity);
+                $severitySubs = $severitySub[0];
+
+                $documentation = $dataresult['interaction'][$namedrug][$p]["documentation"];
+
+                $docsub = explode(":", $documentation);
+                $docsubs = $docsub[0];
+
+
+                $clarification = $dataresult['interaction'][$namedrug][$p]["clarification"];
+                $reference = $dataresult['interaction'][$namedrug][$p]["reference"];
+
+                array_push($dataall, $namedrug, $idotherdrug, $severitySubs, $docsubs);
+
+
+                $aa = implode(" ", $dataall);
+
+
+
+            ?>
+
+                <tr id="task-<?= $i ?>" class="task-list-row" data-category="<?= $aa; ?>" data-task-id=<?= $i ?> data-drug="<?= $namedrug; ?>" data-otherdrug="<?= $idotherdrug; ?>" data-severity="<?= $severitySubs; ?>" data-docs="<?= $docsubs; ?>">
+
+
+
+                  <td> <?= $namedrug; ?> </td>
+                  <td> <?= $idotherdrug; ?> </td>
+
+                  <td> <?= $summary; ?> </td>
+                  <td> <?= $severitySubs; ?> </td>
+                  <td> <?= $docsubs; ?> </td>
+                  <td> <?= $clarification; ?> </td>
+                  <td> <?= $reference; ?> </td>
+
+
+                </tr>
+            <?php
+
+                $i++;
+              }
+            } ?>
 
 
           </tbody>
@@ -259,6 +335,324 @@ $u = json_decode($data2);
       </div> -->
     </div>
   </div>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var byDrug = [],
+        byOtherdrug = [],
+        bySeverity = [],
+        byDoc = [];;
+      var drugselector = '';
+      var otherselector = '';
+      var severityselector = '';
+      var docselector = '';
+
+      var $lis = $('.task-list-row');
+
+
+      $('#drug-filter').multiselect({
+        includeSelectAllOption: true,
+
+        selectAllValue: 'multiselect-all',
+        numberDisplayed: 1,
+        maxHeight: '300',
+        buttonWidth: '200',
+        onSelectAll: function(options) {
+          $lis.show();
+        },
+        onChange: function(element, checked) {
+          var brands = $('#drug-filter option:selected');
+          var drugselected = [];
+
+          $checked = $('#drug-filter option:selected');
+          drugselector = '';
+          if ($checked.length) {
+            $(brands).each(function(index, brand) {
+              drugselected.push([$(this).val()]);
+              byDrug.push([$(this).val()]);
+              if (drugselector === '') {
+                drugselector += "[data-category~='" + $(this).val() + "']";
+              } else {
+                drugselector += ",[data-category~='" + $(this).val() + "']";
+              }
+            });
+
+          } else {
+            $lis.show();
+          }
+          $lis.hide();
+          console.log(drugselector);
+
+          if (drugselector === '' && otherselector === '' && severityselector === '' && docselector === '') {
+            $lis.show();
+
+          } else if (drugselector === '' && otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(docselector).show();
+          } else if (drugselector === '' && otherselector === '' && docselector === '') {
+            $('.task-list-row').filter(severityselector).show();
+          } else if (drugselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+          } else if (otherselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).show();
+          } else if (drugselector === '' && severityselector === '') {
+            $('.task-list-row').filter(otherselector).filter(docselector).show();
+          } else if (drugselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).show();
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).filter(docselector).show();
+
+          } else if (otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(docselector).show();
+          } else if (otherselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).show();
+
+          } else if (severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).show();
+
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).filter(docselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).filter(docselector).show();
+          } else if (severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(docselector).show();
+          } else if (docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).filter(docselector).show();
+          }
+        }
+      });
+
+
+      $('#otherdrug-filter').multiselect({
+        includeSelectAllOption: true,
+        selectAllValue: 'multiselect-all',
+        numberDisplayed: 1,
+        maxHeight: '300',
+        buttonWidth: '200',
+        onSelectAll: function(options) {
+          $lis.show();
+        },
+        onChange: function(element, checked) {
+          var brands = $('#otherdrug-filter option:selected');
+          var otherselected = [];
+          $checked = $('#otherdrug-filter option:selected');
+          otherselector = '';
+          if ($checked.length) {
+            $(brands).each(function(index, brand) {
+              otherselected.push([$(this).val()]);
+              byOtherdrug.push([$(this).val()]);
+              if (otherselector === '') {
+                otherselector += "[data-category~='" + $(this).val() + "']";
+              } else {
+                otherselector += ",[data-category~='" + $(this).val() + "']";
+              }
+            });
+
+          } else {
+            $lis.show();
+          }
+          $lis.hide();
+          console.log(otherselector);
+          if (drugselector === '' && otherselector === '' && severityselector === '' && docselector === '') {
+            $lis.show();
+
+          } else if (drugselector === '' && otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(docselector).show();
+          } else if (drugselector === '' && otherselector === '' && docselector === '') {
+            $('.task-list-row').filter(severityselector).show();
+          } else if (drugselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+          } else if (otherselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).show();
+          } else if (drugselector === '' && severityselector === '') {
+            $('.task-list-row').filter(otherselector).filter(docselector).show();
+          } else if (drugselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).show();
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).filter(docselector).show();
+
+          } else if (otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(docselector).show();
+          } else if (otherselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).show();
+
+          } else if (severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).show();
+
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).filter(docselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).filter(docselector).show();
+          } else if (severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(docselector).show();
+          } else if (docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).filter(docselector).show();
+          }
+        }
+      });
+
+      $('#severity-filter').multiselect({
+        includeSelectAllOption: true,
+        selectAllValue: 'multiselect-all',
+        numberDisplayed: 1,
+        maxHeight: '300',
+        buttonWidth: '200',
+        onSelectAll: function(options) {
+          $lis.show();
+        },
+        onChange: function(element, checked) {
+          var brands = $('#severity-filter option:selected');
+          var severityselected = [];
+          $checked = $('#severity-filter option:selected');
+          severityselector = '';
+          if ($checked.length) {
+            $(brands).each(function(index, brand) {
+              severityselected.push([$(this).val()]);
+
+              bySeverity.push([$(this).val()]);
+              if (severityselector === '') {
+                severityselector += "[data-category~='" + $(this).val() + "']";
+              } else {
+                severityselector += ",[data-category~='" + $(this).val() + "']";
+              }
+            });
+
+          } else {
+            $lis.show();
+          }
+          $lis.hide();
+          console.log(severityselector);
+
+          if (drugselector === '' && otherselector === '' && severityselector === '' && docselector === '') {
+            $lis.show();
+
+          } else if (drugselector === '' && otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(docselector).show();
+          } else if (drugselector === '' && otherselector === '' && docselector === '') {
+            $('.task-list-row').filter(severityselector).show();
+          } else if (drugselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+          } else if (otherselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).show();
+          } else if (drugselector === '' && severityselector === '') {
+            $('.task-list-row').filter(otherselector).filter(docselector).show();
+          } else if (drugselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).show();
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).filter(docselector).show();
+
+          } else if (otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(docselector).show();
+          } else if (otherselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).show();
+
+          } else if (severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).show();
+
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).filter(docselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).filter(docselector).show();
+          } else if (severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(docselector).show();
+          } else if (docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).filter(docselector).show();
+          }
+        }
+      });
+      $('#documentation-filter').multiselect({
+        includeSelectAllOption: true,
+
+        selectAllValue: 'multiselect-all',
+        numberDisplayed: 1,
+        maxHeight: '300',
+        buttonWidth: '200',
+        onSelectAll: function(options) {
+          $lis.show();
+        },
+        onChange: function(element, checked) {
+          var brands = $('#documentation-filter option:selected');
+          var docselected = [];
+
+          $checked = $('#documentation-filter option:selected');
+          docselector = '';
+          if ($checked.length) {
+
+            $(brands).each(function(index, brand) {
+              docselected.push([$(this).val()]);
+              byDoc.push([$(this).val()]);
+              if (docselector === '') {
+                docselector += "[data-category~='" + $(this).val() + "']";
+              } else {
+                docselected += ",[data-category~='" + $(this).val() + "']";
+              }
+            });
+
+          } else {
+            $lis.show();
+          }
+          $lis.hide();
+          console.log(docselector);
+
+          if (drugselector === '' && otherselector === '' && severityselector === '' && docselector === '') {
+            $lis.show();
+
+          } else if (drugselector === '' && otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(docselector).show();
+          } else if (drugselector === '' && otherselector === '' && docselector === '') {
+            $('.task-list-row').filter(severityselector).show();
+          } else if (drugselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).show();
+          } else if (otherselector === '' && severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).show();
+          } else if (drugselector === '' && severityselector === '') {
+            $('.task-list-row').filter(otherselector).filter(docselector).show();
+          } else if (drugselector === '' && docselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).show();
+          } else if (drugselector === '' && otherselector === '') {
+            $('.task-list-row').filter(severityselector).filter(docselector).show();
+
+          } else if (otherselector === '' && severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(docselector).show();
+          } else if (otherselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).show();
+
+          } else if (severityselector === '' && docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).show();
+
+          } else if (drugselector === '') {
+            $('.task-list-row').filter(otherselector).filter(severityselector).filter(docselector).show();
+          } else if (otherselector === '') {
+            $('.task-list-row').filter(drugselector).filter(severityselector).filter(docselector).show();
+          } else if (severityselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(docselector).show();
+          } else if (docselector === '') {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).show();
+          } else {
+            $('.task-list-row').filter(drugselector).filter(otherselector).filter(severityselector).filter(docselector).show();
+          }
+        }
+      });
+    });
+  </script>
+  <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+
 </body>
 
 </html>
+
+<!-- 
+if (this.checked) {
+          byDrug.push("[data-category~='" + $(this).attr("value") + "']");
+        } else {
+          var myIndex = byDrug.indexOf("[data-category~='" + $(this).attr("value") + "']");
+
+          if (myIndex !== -1) {
+            byDrug.splice(myIndex, 1);
+          }
+        }
+        console.log(byDrug); -->
