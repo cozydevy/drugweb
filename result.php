@@ -44,6 +44,7 @@ $dataresult = $json;
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <link href="css/css2.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
@@ -145,17 +146,24 @@ $dataresult = $json;
 </head>
 
 <body>
-  <br>
-  <h2>Result</h2>
-  <hr><br>
+ 
 
-  <div class="container">
+  <div class="container"  style="width: 1350px; margin: 0 auto;">
+  <div class="headercontent2">
+<header class="d-flex flex-wrap  p-2 mb-4 ">
+      <a href="/" class="d-flex   text-white text-decoration-none ">
+        <span >header</span>
+      </a>
+
+    
+    </header>
+    </div>
     <div class="row">
 
       <table class="table">
         <thead>
           <tr class="filters">
-            <th>Drug
+            <th>Anticancer
               <select id="drug-filter" multiple="multiple" class="form-control">
 
 
@@ -175,7 +183,7 @@ $dataresult = $json;
 
               </select>
             </th>
-            <th>Other drug
+            <th>Herb
               <select id="otherdrug-filter" multiple="multiple class=" form-control">
 
 
@@ -231,10 +239,11 @@ $dataresult = $json;
 
 
         <table id="task-list-tbl" class="table">
-          <thead>
+        <thead class="thead-light">
+
             <tr>
-              <th>Drug</th>
-              <th>Otherdrug</th>
+              <th>Anticancer</th>
+              <th>Herb</th>
 
               <th>summary</th>
               <th>severity</th>

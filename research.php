@@ -25,7 +25,7 @@ session_start();
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-  <script src="js/jquery.cookie.js"></script>
+  <link href="css/css.css" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
   </script>
@@ -40,9 +40,17 @@ session_start();
 
 </head>
 
-
+  
 <body class="container">
+  <div class="headercontent">
+<header class="d-flex flex-wrap justify-content-center p-2 mb-4 border-bottom ">
+      <a href="/" class="d-flex  me-md-auto text-white text-decoration-none ">
+        <span class="px-3">header</span>
+      </a>
 
+    
+    </header>
+    </div>
   <div class="row">
 
     <?php
@@ -54,11 +62,11 @@ session_start();
 
 
     <div class="col">
-      <h3> Drug </h3>
+      <h3> Anticancer </h3>
 
       <form id="demoform1" action="#" method="post">
 
-        <select id="list1" multiple="multiple" size="10" name="duallistbox_demo1[]" class="demo1">
+        <select id="list1" multiple="multiple" size="15" name="duallistbox_demo1[]" class="demo1">
 
 
           <script>
@@ -97,17 +105,17 @@ session_start();
 
           preserveSelectionOnMove: 'moved',
           moveOnSelect: false,
-
+          filterPlaceHolder:'Type drug name',
         });
       </script>
 
     </div>
     <div class="col">
-      <h3>Other Drug </h3>
+      <h3>Herb</h3>
 
       <form id="demoform2" action="#" method="post">
 
-        <select multiple="multiple" size="10" name="duallistbox_demo2[]" class="demo2">
+        <select multiple="multiple" size="15" name="duallistbox_demo2[]" class="demo2">
           <script>
             var htmls2 = '';
             $.ajax({
@@ -146,6 +154,7 @@ session_start();
 
           preserveSelectionOnMove: 'moved',
           moveOnSelect: false,
+          filterPlaceHolder:'Type herb name',
 
         });
       </script>
@@ -158,10 +167,13 @@ session_start();
   <div class="row justify-content-md-center">
     <div class="col-md-auto">
 
-      <button id="btndata" type="button" class="btn btn-primary">Search data</button>
+      <button id="btndata" type="button"  class="btn btn-primary">Search </button>
     </div>
 
-    <div id="list22"></div>
+    <div id="list22">
+
+  
+    </div>
 
   </div>
 
