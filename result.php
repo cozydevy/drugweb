@@ -148,11 +148,11 @@ $dataresult = $json;
 <body>
  
 
-  <div class="container"  style="width: 1350px; margin: 0 auto;">
+  <div class="container">
   <div class="headercontent2">
 <header class="d-flex flex-wrap  p-2 mb-4 ">
-      <a href="/" class="d-flex   text-white text-decoration-none ">
-        <span >header</span>
+      <a href="http://127.0.0.1/webdrug/research.php" class="d-flex   text-white text-decoration-none ">
+        <span >Research</span>
       </a>
 
     
@@ -184,7 +184,7 @@ $dataresult = $json;
               </select>
             </th>
             <th>Herb
-              <select id="otherdrug-filter" multiple="multiple class=" form-control">
+              <select id="otherdrug-filter" multiple="multiple" class=" form-control">
 
 
                 <?php
@@ -202,7 +202,7 @@ $dataresult = $json;
               </select>
             </th>
             <th>severity
-              <select id="severity-filter" multiple="multiple class=" form-control">
+              <select id="severity-filter" multiple="multiple" class=" form-control">
 
                 <option>Contraindicated</option>
                 <option>Major</option>
@@ -214,12 +214,11 @@ $dataresult = $json;
               </select>
             </th>
             <th>documentation
-              <select id="documentation-filter" multiple="multiple class=" form-control">
+              <select id="documentation-filter" multiple="multiple" class="form-control">
                 <option>Excellent</option>
                 <option>Good</option>
                 <option>Fair</option>
                 <option>Unknown</option>
-
               </select>
             </th>
 
@@ -238,7 +237,7 @@ $dataresult = $json;
 
 
 
-        <table id="task-list-tbl" class="table">
+        <table id="task-list-tbl" class="table tables">
         <thead class="thead-light">
 
             <tr>
@@ -249,7 +248,7 @@ $dataresult = $json;
               <th>severity</th>
               <th>documentation</th>
               <th>clarification</th>
-              <th>reference</th>
+              <th >reference</th>
             </tr>
           </thead>
           <!-- body -->
@@ -294,12 +293,13 @@ $dataresult = $json;
 
 
                 $aa = implode(" ", $dataall);
+             
 
 
 
             ?>
 
-                <tr id="task-<?= $i ?>" class="task-list-row" data-category="<?= $aa; ?>" data-task-id=<?= $i ?> data-drug="<?= $namedrug; ?>" data-otherdrug="<?= $idotherdrug; ?>" data-severity="<?= $severitySubs; ?>" data-docs="<?= $docsubs; ?>">
+                <tr id="task-<?= $i ?>" class="task-list-row" data-category2="<?= $docsubs; ?>"data-docs="<?= $docsubs; ?>"  data-category="<?= $aa; ?>" data-task-id=<?= $i ?> data-drug="<?= $namedrug; ?>" data-otherdrug="<?= $idotherdrug; ?>" data-severity="<?= $severitySubs; ?>" >
 
 
 
@@ -575,7 +575,6 @@ $dataresult = $json;
       });
       $('#documentation-filter').multiselect({
         includeSelectAllOption: true,
-
         selectAllValue: 'multiselect-all',
         numberDisplayed: 1,
         maxHeight: '300',
@@ -586,18 +585,17 @@ $dataresult = $json;
         onChange: function(element, checked) {
           var brands = $('#documentation-filter option:selected');
           var docselected = [];
-
           $checked = $('#documentation-filter option:selected');
           docselector = '';
           if ($checked.length) {
-
             $(brands).each(function(index, brand) {
               docselected.push([$(this).val()]);
-              byDoc.push([$(this).val()]);
+
+              bySeverity.push([$(this).val()]);
               if (docselector === '') {
-                docselector += "[data-category~='" + $(this).val() + "']";
+                docselector += "[data-category2~='" + $(this).val() + "']";
               } else {
-                docselected += ",[data-category~='" + $(this).val() + "']";
+                docselector += ",[data-category2~='" + $(this).val() + "']";
               }
             });
 

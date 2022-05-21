@@ -45,7 +45,7 @@ session_start();
   <div class="headercontent">
 <header class="d-flex flex-wrap justify-content-center p-2 mb-4 border-bottom ">
       <a href="/" class="d-flex  me-md-auto text-white text-decoration-none ">
-        <span class="px-3">header</span>
+        <span class="px-3">Home</span>
       </a>
 
     

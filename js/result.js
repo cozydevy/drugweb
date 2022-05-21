@@ -49,37 +49,9 @@ $('#assigned-user-filter').on('change', function() {
   });
   
   
-  // Task Priority Dropdown Filter
-  $('#priority-filter').on('change', function() {
-    var taskPriority = this.value;
-    
-    if(taskPriority === 'Any'){
-      $('.task-list-row').hide().filter(function() {
-        return $(this).data('priority') != taskPriority;
-      }).show();
-    }else{
-      $('.task-list-row').hide().filter(function() {
-        return $(this).data('priority') == taskPriority;
-      }).show();  
-    }
-  });
+
   
-  
-  // Task Tags Dropdown Filter
-  $('#tags-filter').on('change', function() {
-    var taskTags = this.value;
-    
-    if(taskTags === 'None'){
-      $('.task-list-row').hide().filter(function() {
-        return $(this).data('tags') != taskTags;
-      }).show();
-    }else{
-      $('.task-list-row').hide().filter(function() {
-        return $(this).data('tags') == taskTags;
-      }).show(); 
-    }
-  });
-  
+
 
   
   /*
