@@ -37,7 +37,7 @@
                         .appendTo(this.wrapper)
                         .val(value)
                         .attr("title", "")
-                        .attr("placeholder", "test")
+                        .attr("placeholder", "Enter Anticancer")
                         .attr("id", "cm")
 
                         .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
@@ -165,10 +165,38 @@
         });
     </script>
     <script>
+        var idAnticancer = "0";
+        var drugname = "";
         $(document).ready(function() {
-            var idAnticancer = "0";
+
             $("#btn_update_Ant").hide();
-            $("#btn_cancle_Ant").click(function() { 
+
+            $("#btn_delete_Ant").click(function() {
+                var id = {
+                    "id": idAnticancer
+                };
+                console.log(id)
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1/drugapi/api/drug/delete.php",
+                    data: id,
+                    success: function(result) {
+                        // console.log(result)
+                        const drugs = result.message;
+                        console.log(drugs);
+                        // Ajax call completed successfully-
+                        location.reload();
+
+                    }
+
+                });
+            });
+
+            $("#inline-form-anticancer").on('change', function() {
+                drugname = this.value;
+              
+            });
+            $("#btn_cancle_Ant").click(function() {
                 $("#cm").val("select Anticancer");
                 $("#inline-form-anticancer2").val("select Anticancer");
 
@@ -191,24 +219,33 @@
             }).change();
             $('#cm').on('autocompleteselect', function(e, ui) {
                 $('#inline-form-anticancer2').val(ui.item.value);
-                console.log(ui.item.value2)
-
+                idAnticancer = ui.item.value2;
+                console.log(idAnticancer)
 
             });
-        }).change();
 
 
+   
 
-        $("#btnInsertAnt").click(function(ev) {
-            var form = $("#insertAnticancer");
+        $("#btnInsertAnt").click(function() {
+            
+       
+        
+
+            var drug = {
+                "drugname": drugname
+            };
+         
             $.ajax({
                 type: "POST",
                 url: "http://127.0.0.1/drugapi/api/drug/create.php",
-                data: form.serialize(),
+                data: drug,
                 success: function(data) {
+
 
                     // Ajax call completed successfully-
                     alert("Form Submited Successfully");
+                    $("#inline-form-anticancer").val("");
                 },
                 error: function(data) {
 
@@ -217,6 +254,8 @@
                 }
             });
         });
+    });
+      
     </script>
 </head>
 
@@ -238,7 +277,7 @@
             <div class="col-sm-8 ">
                 <h5 class="d-flex ">Manage Anticancer </h5>
                 <div>New Anticancer</div>
-                <form class="row py-2" id="insertAnticancer" method="post">
+                <form class="row py-2" id="insertAnticancer">
 
                     <div class="col-9">
 
@@ -246,7 +285,7 @@
                     </div>
 
                     <div class="col-3">
-                        <button type="submit" id="btnInsertAnt" class="btn btn-primary">Insert Anticancer</button>
+                        <button type="button" id="btnInsertAnt" class="btn btn-primary">Insert Anticancer</button>
                     </div>
                 </form>
                 <div class="col py-2">Edit Anticancer</div>
@@ -256,7 +295,6 @@
                     <div class="ui-widget">
 
                         <select class="form-select" id="js__apply_now">
-                            <option value="0">select Anticancer</option>
                             <script>
                                 var htmls = '';
                                 $.ajax({
@@ -272,7 +310,7 @@
 
                                         drugs.forEach((element, index, array) => {
 
-                                            htmls += '<option value=' + element.id + '>' + element.drugname + '</option>';
+                                            htmls += '<option value=' + element.id + ' id=' + element.id + '>' + element.drugname + '</option>';
 
                                         });
 
