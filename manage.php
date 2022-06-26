@@ -167,6 +167,7 @@
     <script>
         var idAnticancer = "0";
         var drugname = "";
+        var drugnameEdit = "";
         $(document).ready(function() {
 
             $("#btn_update_Ant").hide();
@@ -194,11 +195,18 @@
 
             $("#inline-form-anticancer").on('change', function() {
                 drugname = this.value;
-              
+
+
+            });
+
+            $("#inline-form-anticancer2").on('change', function() {
+                drugnameEdit = this.value;
+                console.log(drugnameEdit);
+
             });
             $("#btn_cancle_Ant").click(function() {
-                $("#cm").val("select Anticancer");
-                $("#inline-form-anticancer2").val("select Anticancer");
+                $("#cm").val("");
+                $("#inline-form-anticancer2").val("");
 
                 $("#btn_update_Ant").hide();
                 $("#btn_edit_Ant").show();
@@ -213,6 +221,48 @@
                 $("#btn_update_Ant").show();
             });
 
+
+            $("#btn_update_Ant").click(function() {
+
+                var drugname = {
+                    "id": idAnticancer,
+                    "drugname": drugnameEdit
+
+                };
+
+                console.log(drugname);
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1/drugapi/api/drug/update.php",
+                    data: JSON.stringify(drugname),
+                    success: function(result) {
+                        // console.log(result)
+                        const drugs = result.message;
+                        console.log(drugs);
+                        alert("Form Edite Successfully");
+                        // Ajax call completed successfully-
+                        // alert("Form update Successfully");
+                        $("#cm").val("");
+                        $("#inline-form-anticancer2").val("");
+
+                        $("#btn_update_Ant").hide();
+                        $("#btn_edit_Ant").show();
+                        $("#inline-form-anticancer2").attr('disabled', 'disabled');
+
+                        $("#inline-form-anticancer2").val("");
+                        location.reload();
+
+                    },
+                    error: function(result) {
+
+                        // Some error in ajax call
+
+                    }
+                });
+            });
+
+
             $('#cm').on('change', function() {
                 $('#inline-form-anticancer2').val(this.value);
 
@@ -225,37 +275,38 @@
             });
 
 
-   
-
-        $("#btnInsertAnt").click(function() {
-            
-       
-        
-
-            var drug = {
-                "drugname": drugname
-            };
-         
-            $.ajax({
-                type: "POST",
-                url: "http://127.0.0.1/drugapi/api/drug/create.php",
-                data: drug,
-                success: function(data) {
 
 
-                    // Ajax call completed successfully-
-                    alert("Form Submited Successfully");
-                    $("#inline-form-anticancer").val("");
-                },
-                error: function(data) {
+            $("#btnInsertAnt").click(function() {
 
-                    // Some error in ajax call
-                    alert("some Error");
-                }
+
+
+
+                var drug = {
+                    "drugname": drugname
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1/drugapi/api/drug/create.php",
+                    data: drug,
+                    success: function(data) {
+
+
+                        // Ajax call completed successfully-
+                        alert("Form Submited Successfully");
+                        $("#inline-form-anticancer").val("");
+                        location.reload();
+
+                    },
+                    error: function(data) {
+
+                        // Some error in ajax call
+                        alert("some Error");
+                    }
+                });
             });
         });
-    });
-      
     </script>
 </head>
 
