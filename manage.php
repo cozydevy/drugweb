@@ -30,7 +30,7 @@
                 },
 
                 _createAutocomplete: function() {
-                    var selected = this.element.children(":selected"),
+                    var selected = this.element.children(),
                         value = selected.val() ? selected.text() : "";
 
                     this.input = $("<input>")
