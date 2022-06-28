@@ -185,7 +185,7 @@
                         .appendTo(this.wrapper)
                         .val(value)
                         .attr("title", "")
-                        .attr("placeholder", "Enter Anticancer")
+                        .attr("placeholder", "Enter Herb")
                         .attr("id", "cm2")
 
 
@@ -314,12 +314,319 @@
         });
     </script>
     <script>
+        $(function() {
+            $.widget("custom.combobox", {
+                _create: function() {
+                    this.wrapper = $("<span>")
+                        .addClass("custom-combobox")
+                        .insertAfter(this.element);
+                    this.element.hide();
+                    this._createAutocomplete();
+                    this._createShowAllButton();
+                },
+
+                _createAutocomplete: function() {
+                    var selected = this.element.children(),
+                        value = selected.val() ? selected.text() : "";
+
+                    this.input = $("<input>")
+                        .appendTo(this.wrapper)
+                        .val(value)
+                        .attr("title", "")
+                        .attr("placeholder", "Enter Anticancer")
+                        .attr("id", "cm3")
+
+
+                        .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
+                        .autocomplete({
+                            delay: 0,
+                            minLength: 0,
+                            source: $.proxy(this, "_source")
+                        })
+                        .tooltip({
+                            classes: {
+                                "ui-tooltip": "ui-state-highlight"
+                            }
+                        });
+
+                    this._on(this.input, {
+                        autocompleteselect: function(event, ui) {
+                            ui.item.option.selected = true;
+                            this._trigger("select", event, {
+                                item: ui.item.option
+                            });
+
+
+
+
+
+                        },
+
+                        autocompletechange: "_removeIfInvalid"
+
+                    });
+                },
+
+                _createShowAllButton: function() {
+                    var input = this.input,
+                        wasOpen = false;
+
+                    $("<a>")
+                        .attr("tabIndex", -1)
+                        .tooltip()
+                        .appendTo(this.wrapper)
+                        .button({
+                            icons: {
+                                primary: "ui-icon-triangle-1-s"
+                            },
+                            text: false
+                        })
+                        .removeClass("ui-corner-all")
+                        .addClass("custom-combobox-toggle ui-corner-right")
+                        .on("mousedown", function() {
+                            wasOpen = input.autocomplete("widget").is(":visible");
+                        })
+                        .on("click", function() {
+                            input.trigger("focus");
+
+                            // Close if already visible
+                            if (wasOpen) {
+                                return;
+                            }
+
+                            // Pass empty string as value to search for, displaying all results
+                            input.autocomplete("search", "");
+
+                        });
+                },
+
+                _source: function(request, response) {
+                    var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+                    response(this.element.children("option").map(function() {
+                        var text = $(this).text();
+                        var ids = $(this).val();
+
+                        if (this.value && (!request.term || matcher.test(text)))
+                            return {
+                                label: text,
+                                value: text,
+                                value2: ids,
+                                option: this
+                            };
+                    }));
+                },
+
+                _removeIfInvalid: function(event, ui) {
+
+                    // Selected an item, nothing to do
+                    if (ui.item) {
+                        return;
+                    }
+
+                    // Search for a match (case-insensitive)
+                    var value = this.input.val(),
+                        valueLowerCase = value.toLowerCase(),
+                        valid = false;
+                    this.element.children("option").each(function() {
+                        if ($(this).text().toLowerCase() === valueLowerCase) {
+                            this.selected = valid = true;
+                            return false;
+                        }
+                    });
+
+                    // Found a match, nothing to do
+                    if (valid) {
+                        return;
+                    }
+
+                    // Remove invalid value
+                    this.input
+                        .val("")
+                        .attr("title", value + " didn't match any item")
+                        .tooltip("open");
+                    this.element.val("");
+                    this._delay(function() {
+                        this.input.tooltip("close").attr("title", "");
+                    }, 2500);
+                    this.input.autocomplete("instance").term = "";
+                },
+
+                _destroy: function() {
+                    this.wrapper.remove();
+                    this.element.show();
+                }
+            });
+
+            $("#js__apply_now3").combobox();
+
+        });
+    </script>
+    <script>
+        $(function() {
+            $.widget("custom.combobox", {
+                _create: function() {
+                    this.wrapper = $("<span>")
+                        .addClass("custom-combobox")
+                        .insertAfter(this.element);
+                    this.element.hide();
+                    this._createAutocomplete();
+                    this._createShowAllButton();
+                },
+
+                _createAutocomplete: function() {
+                    var selected = this.element.children(),
+                        value = selected.val() ? selected.text() : "";
+
+                    this.input = $("<input>")
+                        .appendTo(this.wrapper)
+                        .val(value)
+                        .attr("title", "")
+                        .attr("placeholder", "Enter Herb")
+                        .attr("id", "cm4")
+
+
+                        .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
+                        .autocomplete({
+                            delay: 0,
+                            minLength: 0,
+                            source: $.proxy(this, "_source")
+                        })
+                        .tooltip({
+                            classes: {
+                                "ui-tooltip": "ui-state-highlight"
+                            }
+                        });
+
+                    this._on(this.input, {
+                        autocompleteselect: function(event, ui) {
+                            ui.item.option.selected = true;
+                            this._trigger("select", event, {
+                                item: ui.item.option
+                            });
+
+
+
+
+
+                        },
+
+                        autocompletechange: "_removeIfInvalid"
+
+                    });
+                },
+
+                _createShowAllButton: function() {
+                    var input = this.input,
+                        wasOpen = false;
+
+                    $("<a>")
+                        .attr("tabIndex", -1)
+                        .tooltip()
+                        .appendTo(this.wrapper)
+                        .button({
+                            icons: {
+                                primary: "ui-icon-triangle-1-s"
+                            },
+                            text: false
+                        })
+                        .removeClass("ui-corner-all")
+                        .addClass("custom-combobox-toggle ui-corner-right")
+                        .on("mousedown", function() {
+                            wasOpen = input.autocomplete("widget").is(":visible");
+                        })
+                        .on("click", function() {
+                            input.trigger("focus");
+
+                            // Close if already visible
+                            if (wasOpen) {
+                                return;
+                            }
+
+                            // Pass empty string as value to search for, displaying all results
+                            input.autocomplete("search", "");
+
+                        });
+                },
+
+                _source: function(request, response) {
+                    var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+                    response(this.element.children("option").map(function() {
+                        var text = $(this).text();
+                        var ids = $(this).val();
+
+                        if (this.value && (!request.term || matcher.test(text)))
+                            return {
+                                label: text,
+                                value: text,
+                                value2: ids,
+                                option: this
+                            };
+                    }));
+                },
+
+                _removeIfInvalid: function(event, ui) {
+
+                    // Selected an item, nothing to do
+                    if (ui.item) {
+                        return;
+                    }
+
+                    // Search for a match (case-insensitive)
+                    var value = this.input.val(),
+                        valueLowerCase = value.toLowerCase(),
+                        valid = false;
+                    this.element.children("option").each(function() {
+                        if ($(this).text().toLowerCase() === valueLowerCase) {
+                            this.selected = valid = true;
+                            return false;
+                        }
+                    });
+
+                    // Found a match, nothing to do
+                    if (valid) {
+                        return;
+                    }
+
+                    // Remove invalid value
+                    this.input
+                        .val("")
+                        .attr("title", value + " didn't match any item")
+                        .tooltip("open");
+                    this.element.val("");
+                    this._delay(function() {
+                        this.input.tooltip("close").attr("title", "");
+                    }, 2500);
+                    this.input.autocomplete("instance").term = "";
+                },
+
+                _destroy: function() {
+                    this.wrapper.remove();
+                    this.element.show();
+                }
+            });
+
+            $("#js__apply_now4").combobox();
+
+        });
+    </script>
+
+
+    <script>
         var idAnticancer = "0";
         var idHerb = "0";
+        var idAnticancer2 = "0";
+        var idHerb2 = "0";
+
         var drugname = "";
         var otherdrugname = "";
         var drugnameEdit = "";
         var otherdrugnameEdit = "";
+
+        var summery="";
+        var severity="";
+        var documentation="";
+        var clarification="";
+        var reference="";
 
         $(document).ready(function() {
 
@@ -489,7 +796,7 @@
                         // Ajax call completed successfully-
                         // alert("Form update Successfully");
                         $("#cm2").val("");
-                    
+
 
                         $("#btn_update_Herb").hide();
                         $("#btn_edit_Herb").show();
@@ -507,6 +814,40 @@
                 });
             });
 
+            $("#btn_serach_all").click(function() {
+
+                var interact = {
+                    "iddrug": idAnticancer2,
+                    "idotherdrug": idHerb2
+
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1/drugapi/api/interact/read2.php",
+                    data: JSON.stringify(interact),
+                    success: function(result) {
+                        // console.log(result)
+                        const interact = result.data;
+                   
+                        var dataall=interact.interact[0];
+                        summary=dataall['summary'];
+                        severity=dataall['severity'];
+                        documentation=dataall['documentation'];
+                        clarification=dataall['clarification'];
+                        reference=dataall['reference'];
+                       console.log(dataall);
+                        // alert("Form update Successfully");
+                        $("#summery").text(summary);
+                        $("#severity").text(severity);
+                        $("#documentation").text(documentation);
+                        $("#clarification").text(clarification);
+                        $("#reference").text(reference);
+                    },
+                    error: function(result) {
+                        // Some error in ajax call
+                    }
+                });
+            });
 
 
             $('#cm').on('change', function() {
@@ -543,6 +884,30 @@
                 $("#btn_update_Herb").hide();
                 idHerb = ui.item.value2;
                 console.log(idHerb)
+
+            });
+
+
+            $('#cm3').on('change', function() {
+
+
+            }).change();
+            $('#cm3').on('autocompleteselect', function(e, ui) {
+
+
+                idAnticancer2 = ui.item.value2;
+                console.log(idAnticancer2)
+
+            });
+            $('#cm4').on('change', function() {
+
+
+            }).change();
+            $('#cm4').on('autocompleteselect', function(e, ui) {
+
+
+                idHerb2 = ui.item.value2;
+                console.log(idHerb2)
 
             });
 
@@ -643,9 +1008,6 @@
                                     success: function(result) {
                                         // console.log(result)
                                         const drugs = result.drug;
-                                        console.log(drugs);
-
-
 
                                         drugs.forEach((element, index, array) => {
 
@@ -761,26 +1123,82 @@
                 <div class="col-sm-8 ">
 
                     <h5 class="d-flex">Manage Anticancer and Herb</h5>
-                    <div class="col py-2 ">
-                        Select Anticancer
-                        <select class="form-select" id="example">
-                            <option value="1">JavaScript</option>
-                            <option value="2">HTML5</option>
-                            <option value="3">CSS3</option>
-                            <option value="4">Bootstrap</option>
-                            <option value="5">Tailwind</option>
-                        </select>
-                    </div>
-                    <div class="col py-2 ">
-                        Select Herb
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="ui-widget">
 
-                        <select class="form-select" id="example">
-                            <option value="1">JavaScript</option>
-                            <option value="2">HTML5</option>
-                            <option value="3">CSS3</option>
-                            <option value="4">Bootstrap</option>
-                            <option value="5">Tailwind</option>
-                        </select>
+                                <select class="form-select" id="js__apply_now3">
+                                    <script>
+                                        var htmls = '';
+                                        $.ajax({
+                                            url: 'http://127.0.0.1/drugapi/api/drug/read.php',
+                                            data: {},
+                                            type: 'get',
+                                            success: function(result) {
+                                                // console.log(result)
+                                                const drugs = result.drug;
+                                                console.log(drugs);
+                                                drugs.forEach((element, index, array) => {
+
+                                                    htmls += '<option value=' + element.id + ' id=' + element.id + '>' + element.drugname + '</option>';
+                                                });
+
+                                            },
+                                            async: false
+                                        });
+
+                                        document.write(htmls);
+                                    </script>
+
+                                </select>
+                            </div>
+
+                            <div class="col py-2 ">
+                                <div class="ui-widget">
+
+                                    <select class="form-select" id="js__apply_now4">
+                                        <script>
+                                            var htmls = '';
+                                            $.ajax({
+                                                url: 'http://127.0.0.1/drugapi/api/otherdrug/read.php',
+                                                data: {},
+                                                type: 'get',
+                                                success: function(result) {
+                                                    // console.log(result)
+                                                    const otherdrug = result.otherdrug;
+                                                    console.log(otherdrug);
+
+
+
+                                                    otherdrug.forEach((element, index, array) => {
+
+                                                        htmls += '<option value=' + element.id + ' id=' + element.id + '>' + element.otherdrugname + '</option>';
+
+                                                    });
+
+                                                },
+                                                async: false
+                                            });
+
+                                            document.write(htmls);
+                                        </script>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-4">
+                            <button id="btn_serach_all" type="button" class="btn btn-primary">Search</button>
+                            <!-- <button id="btn_edit_all" type="button" class="btn btn-primary">Edit</button>
+                            <button id="btn_update_all" type="button" class="btn btn-primary">Save</button>
+
+                            <button type="button" id="btn_cancle_all" class="btn btn-secondary">Cancle</button>
+                            <button type="button" id="btn_delete_all" class="btn btn-danger">Delete</button> -->
+
+                        </div>
                     </div>
 
                     <form class="w-100 py-2" id="formAnticancer">
