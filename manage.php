@@ -39,7 +39,7 @@
                         .attr("title", "")
                         .attr("placeholder", "Enter Anticancer")
                         .attr("id", "cm")
-                        
+
 
                         .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
                         .autocomplete({
@@ -165,7 +165,7 @@
 
         });
     </script>
-       <script>
+    <script>
         $(function() {
             $.widget("custom.combobox", {
                 _create: function() {
@@ -187,7 +187,7 @@
                         .attr("title", "")
                         .attr("placeholder", "Enter Anticancer")
                         .attr("id", "cm2")
-                        
+
 
                         .addClass("custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left")
                         .autocomplete({
@@ -319,6 +319,8 @@
         var drugname = "";
         var otherdrugname = "";
         var drugnameEdit = "";
+        var otherdrugnameEdit = "";
+
         $(document).ready(function() {
 
             $("#btn_update_Ant").hide();
@@ -344,6 +346,29 @@
                 });
             });
 
+
+            $("#btn_delete_Herb").click(function() {
+                var id = {
+                    "id": idHerb
+                };
+                console.log(id)
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1/drugapi/api/otherdrug/delete.php",
+                    data: JSON.stringify(id),
+                    success: function(result) {
+                        // console.log(result)
+                        const drugs = result.message;
+                        console.log(drugs);
+                        // Ajax call completed successfully-
+                        location.reload();
+
+                    }
+
+                });
+            });
+
+
             $("#inline-form-anticancer").on('change', function() {
                 drugname = this.value;
 
@@ -359,6 +384,14 @@
                 console.log(drugnameEdit);
 
             });
+
+            $("#inline-form-herb2").on('change', function() {
+                otherdrugnameEdit = this.value;
+                console.log(otherdrugnameEdit);
+
+            });
+
+
             $("#btn_cancle_Ant").click(function() {
                 $("#cm").val("");
 
@@ -432,6 +465,48 @@
                     }
                 });
             });
+
+
+            $("#btn_update_Herb").click(function() {
+
+                var otherdrugname = {
+                    "id": idHerb,
+                    "otherdrugname": otherdrugnameEdit
+
+                };
+
+                console.log(otherdrugname);
+
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1/drugapi/api/otherdrug/update.php",
+                    data: JSON.stringify(otherdrugname),
+                    success: function(result) {
+                        // console.log(result)
+                        const otherdrugs = result.message;
+                        console.log(otherdrugs);
+                        alert("Form Edite Successfully");
+                        // Ajax call completed successfully-
+                        // alert("Form update Successfully");
+                        $("#cm2").val("");
+                    
+
+                        $("#btn_update_Herb").hide();
+                        $("#btn_edit_Herb").show();
+                        $("#inline-form-herb2").attr('disabled', 'disabled');
+
+                        $("#inline-form-herb2").val("");
+                        location.reload();
+
+                    },
+                    error: function(result) {
+
+                        // Some error in ajax call
+
+                    }
+                });
+            });
+
 
 
             $('#cm').on('change', function() {
@@ -620,7 +695,7 @@
                 <form class="row py-2" id="formHerb">
                     <div class="col-9">
 
-                        <input type="text" class="form-control" id="inline-form-herb" placeholder="Herb" name="otherdrugname" >
+                        <input type="text" class="form-control" id="inline-form-herb" placeholder="Herb" name="otherdrugname">
                     </div>
 
                     <div class="col-3">
