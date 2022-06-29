@@ -966,9 +966,15 @@
                     data: JSON.stringify(interact),
                     success: function(result) {
                         console.log(result)
+                       
                         const interact = result.data;
-
+                         
+                        if(result.data.interact[0]==null){
+                            console.log("new")
+                        }
                         var dataall = interact.interact[0];
+
+                       
                         summary = dataall['summary'];
                         severity = dataall['severity'];
                         documentation = dataall['documentation'];
