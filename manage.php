@@ -617,21 +617,28 @@
         var idAnticancer2 = "0";
         var idHerb2 = "0";
 
+
+
         var drugname = "";
         var otherdrugname = "";
         var drugnameEdit = "";
         var otherdrugnameEdit = "";
 
-        var summery="";
-        var severity="";
-        var documentation="";
-        var clarification="";
-        var reference="";
+        var idinteract = "";
+        var summary = "";
+        var severity = "";
+        var documentation = "";
+        var clarification = "";
+        var reference = "";
 
         $(document).ready(function() {
 
             $("#btn_update_Ant").hide();
             $("#btn_update_Herb").hide();
+
+
+            $("#btn_update_all").hide();
+
             $("#btn_delete_Ant").click(function() {
                 var id = {
                     "id": idAnticancer
@@ -676,6 +683,27 @@
             });
 
 
+            $("#btn_delete_all").click(function() {
+                var id = {
+                    "id": idinteract
+                };
+                console.log(id)
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1/drugapi/api/interact/delete.php",
+                    data: JSON.stringify(id),
+                    success: function(result) {
+                        // console.log(result)
+                        const drugs = result.message;
+                        console.log(drugs);
+                        // Ajax call completed successfully-
+                        location.reload();
+
+                    }
+
+                });
+            });
+
             $("#inline-form-anticancer").on('change', function() {
                 drugname = this.value;
 
@@ -696,6 +724,22 @@
                 otherdrugnameEdit = this.value;
                 console.log(otherdrugnameEdit);
 
+            });
+
+            $("#summary").on('change', function() {
+                summary = this.value;
+            });
+            $("#severity").on('change', function() {
+                severity = this.value;
+            });
+            $("#documentation").on('change', function() {
+                documentation = this.value;
+            });
+            $("#clarification").on('change', function() {
+                clarification = this.value;
+            });
+            $("#reference").on('change', function() {
+                reference = this.value;
             });
 
 
@@ -733,6 +777,90 @@
             });
 
 
+            $("#btn_edit_all").click(function() {
+                $("#btn_edit_all").hide();
+                $("#btn_update_all").show();
+
+                $("#summary").removeAttr('disabled');
+                $("#severity").removeAttr('disabled');
+                $("#documentation").removeAttr('disabled');
+                $("#clarification").removeAttr('disabled');
+                $("#reference").removeAttr('disabled');
+
+            });
+
+            $("#btn_cancle_all").click(function() {
+
+                $("#btn_edit_all").show();
+                $("#btn_update_all").hide();
+
+                $("#summary").attr('disabled', 'disabled');
+                $("#severity").attr('disabled', 'disabled');
+                $("#documentation").attr('disabled', 'disabled');
+                $("#clarification").attr('disabled', 'disabled');
+                $("#reference").attr('disabled', 'disabled');
+
+              
+
+
+                $("#summary").text("");
+                $("#severity").text("");
+                $("#documentation").text("");
+                $("#clarification").text("");
+                $("#reference").text("");
+
+            });
+
+            $("#btn_update_all").click(function() {
+
+                $("#btn_edit_all").show();
+                $("#btn_update_all").hide();
+                $("#summary").attr('disabled', 'disabled');
+                $("#severity").attr('disabled', 'disabled');
+                $("#documentation").attr('disabled', 'disabled');
+                $("#clarification").attr('disabled', 'disabled');
+                $("#reference").attr('disabled', 'disabled');
+
+                var interact = {
+                    "id": idinteract,
+                    "summary": summary,
+                    "severity": severity,
+                    "severity": severity,
+                    "documentation": documentation,
+                    "clarification": clarification,
+                    "reference": reference
+
+
+
+                };
+
+                console.log(interact)
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1/drugapi/api/interact/update.php",
+                    data: JSON.stringify(interact),
+                    success: function(result) {
+                        // console.log(result)
+                        const drugs = result.message;
+                        console.log(drugs);
+                        alert("Form Edite Successfully");
+                        // Ajax call completed successfully-
+                        // alert("Form update Successfully");
+
+
+
+
+
+                    },
+                    error: function(result) {
+
+                        // Some error in ajax call
+
+                    }
+                });
+
+
+            });
             $("#btn_update_Ant").click(function() {
 
                 var drugname = {
@@ -815,8 +943,19 @@
             });
 
             $("#btn_serach_all").click(function() {
+                idinteract = "";
+                summary = "";
+                severity = "";
+                documentation = "";
+                clarification = "";
+                reference = "";
+                $("#summary").text("");
+                $("#severity").text("");
+                $("#documentation").text("");
+                $("#clarification").text("");
+                $("#reference").text("");
 
-                var interact = {
+              var  interact = { 
                     "iddrug": idAnticancer2,
                     "idotherdrug": idHerb2
 
@@ -826,18 +965,19 @@
                     url: "http://127.0.0.1/drugapi/api/interact/read2.php",
                     data: JSON.stringify(interact),
                     success: function(result) {
-                        // console.log(result)
+                        console.log(result)
                         const interact = result.data;
-                   
-                        var dataall=interact.interact[0];
-                        summary=dataall['summary'];
-                        severity=dataall['severity'];
-                        documentation=dataall['documentation'];
-                        clarification=dataall['clarification'];
-                        reference=dataall['reference'];
-                       console.log(dataall);
+
+                        var dataall = interact.interact[0];
+                        summary = dataall['summary'];
+                        severity = dataall['severity'];
+                        documentation = dataall['documentation'];
+                        clarification = dataall['clarification'];
+                        reference = dataall['reference'];
+                        idinteract = dataall['id'];
+                        console.log(dataall);
                         // alert("Form update Successfully");
-                        $("#summery").text(summary);
+                        $("#summary").text(summary);
                         $("#severity").text(severity);
                         $("#documentation").text(documentation);
                         $("#clarification").text(clarification);
@@ -845,6 +985,7 @@
                     },
                     error: function(result) {
                         // Some error in ajax call
+                        console.log(result)
                     }
                 });
             });
@@ -1206,29 +1347,35 @@
                         <div class="col">
 
                             <div class="mb-3">
-                                <label for="summery" class="form-label">summery</label>
-                                <textarea name="summery" class="form-control" id="summery" cols="20" rows="2" aria-describedby="summery"></textarea>
+                                <label for="summary" class="form-label">summary</label>
+                                <textarea name="summary" class="form-control" id="summary" cols="20" rows="2" aria-describedby="summary" disabled></textarea>
 
                             </div>
                             <div class="mb-3">
                                 <label for="severity" class="form-label">severity</label>
-                                <textarea name="severity" class="form-control" id="severity" cols="20" rows="2" aria-describedby="severity"></textarea>
+                                <textarea name="severity" class="form-control" id="severity" cols="20" rows="2" aria-describedby="severity" disabled></textarea>
 
                             </div>
                             <div class="mb-3">
                                 <label for="documentation" class="form-label">documentation</label>
-                                <textarea name="documentation" class="form-control" id="documentation" cols="20" rows="2" aria-describedby="documentation"></textarea>
+                                <textarea name="documentation" class="form-control" id="documentation" cols="20" rows="2" aria-describedby="documentation" disabled></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="clarification" class="form-label">clarification</label>
-                                <textarea name="clarification" class="form-control" id="clarification" cols="20" rows="2" aria-describedby="clarification"></textarea>
+                                <textarea name="clarification" class="form-control" id="clarification" cols="20" rows="2" aria-describedby="clarification" disabled></textarea>
 
                             </div>
                             <div class="mb-3">
                                 <label for="reference" class="form-label">reference</label>
-                                <textarea name="reference" class="form-control" id="reference" cols="20" rows="2" aria-describedby="reference"></textarea>
+                                <textarea name="reference" class="form-control" id="reference" cols="20" rows="2" aria-describedby="reference" disabled></textarea>
                             </div>
-                            <div class="text-center "> <button type="submit" class="btn btn-primary">Submit</button> <button type="submit" class="btn btn-secondary">cancle</button>
+                            <div class="text-center ">
+
+                                <button id="btn_edit_all" type="button" class="btn btn-primary">Edit</button>
+                                <button id="btn_update_all" type="button" class="btn btn-primary">Save</button>
+
+                                <button type="button" id="btn_cancle_all" class="btn btn-secondary">Cancle</button>
+                                <button type="button" id="btn_delete_all" class="btn btn-danger">Delete</button>
                             </div>
                         </div>
 
