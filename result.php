@@ -146,17 +146,17 @@ $dataresult = $json;
 </head>
 
 <body>
- 
+
 
   <div class="container">
-  <div class="headercontent2">
-<header class="d-flex flex-wrap  p-2 mb-4 ">
-      <a href="<?php echo($API_HOME); ?>/research.php" class="d-flex   text-white text-decoration-none ">
-        <span >Research</span>
-      </a>
+    <div class="headercontent2">
+      <header class="d-flex flex-wrap  p-2 mb-4 ">
+        <a href="<?php echo ($API_HOME); ?>/research.php" class="d-flex   text-white text-decoration-none ">
+          <span>Research</span>
+        </a>
 
-    
-    </header>
+
+      </header>
     </div>
     <div class="row">
 
@@ -238,7 +238,7 @@ $dataresult = $json;
 
 
         <table id="task-list-tbl" class="table tables">
-        <thead class="thead-light">
+          <thead class="thead-light">
 
             <tr>
               <th>Anticancer</th>
@@ -248,7 +248,7 @@ $dataresult = $json;
               <th>severity</th>
               <th>documentation</th>
               <th>clarification</th>
-              <th >reference</th>
+              <th>reference</th>
             </tr>
           </thead>
           <!-- body -->
@@ -293,23 +293,31 @@ $dataresult = $json;
 
 
                 $aa = implode(" ", $dataall);
-             
+
 
 
 
             ?>
 
-                <tr id="task-<?= $i ?>" class="task-list-row" data-category2="<?= $docsubs; ?>"data-docs="<?= $docsubs; ?>"  data-category="<?= $aa; ?>" data-task-id=<?= $i ?> data-drug="<?= $namedrug; ?>" data-otherdrug="<?= $idotherdrug; ?>" data-severity="<?= $severitySubs; ?>" >
+                <tr id="task-<?= $i ?>" class="task-list-row" data-category2="<?= $docsubs; ?>" data-docs="<?= $docsubs; ?>" data-category="<?= $aa; ?>" data-task-id=<?= $i ?> data-drug="<?= $namedrug; ?>" data-otherdrug="<?= $idotherdrug; ?>" data-severity="<?= $severitySubs; ?>">
 
 
-                    <?php 
-                    
+                  <?php
+                  $extername = "";
 
-                    $name=explode(" ", $idotherdrug);
-//$idotherdrug;
-                    ?>
+                  $name = explode(" ", $idotherdrug);
+                  $len = count($name);
+                  if ($len > 3) {
+                    $i = 3;
+                    while ($i < $len) {
+                      $extername .=$name[$i]." ";
+                      $i++;
+                    }
+                  }
+                  //$idotherdrug;
+                  ?>
                   <td> <?= $namedrug; ?> </td>
-                  <td> <?php echo $name[0]."  <i>".$name[1] ." ".$name[2]."</i> " ?> </td>
+                  <td> <?php echo $name[0] . "  <i>" . $name[1] . " " . $name[2] . "</i> ".$extername  ?> </td>
 
                   <td> <?= $summary; ?> </td>
                   <td> <?= $severitySubs; ?> </td>
