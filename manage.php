@@ -1,3 +1,7 @@
+<?php 
+include_once 'url.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +21,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
-    <title>title</title>
+    <title>Management <?php echo($API_url); ?></title>
     <script>
         $(function() {
             $.widget("custom.combobox", {
@@ -663,6 +667,7 @@
                 var id = {
                     "id": idAnticancer
                 };
+             
                 console.log(id)
 
                 $.confirm({
@@ -678,18 +683,32 @@
                                 console.log('the user clicked confirm');
                                 $.ajax({
                                     type: "POST",
-                                    url: "http://127.0.0.1/drugapi/api/drug/delete.php",
+                                    url: "<?php echo($API_url); ?>/drug/delete.php",
                                     data: id,
                                     success: function(result) {
                                         // console.log(result)
                                         const drugs = result.message;
                                         console.log(drugs);
                                         // Ajax call completed successfully-
-                                        location.reload();
 
                                     }
 
                                 });
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo($API_url); ?>/api/interact/deletedrug.php",
+                                    data: JSON.stringify(id),
+                                    success: function(result) {
+                                        // console.log(result)
+                                        const drugs = result.message;
+                                        console.log(drugs);
+                                        // Ajax call completed successfully-
+
+                                    }
+
+                                });
+                                location.reload();
+
                             }
                         },
                         cancel: function() {
@@ -720,18 +739,32 @@
                                 console.log('the user clicked confirm');
                                 $.ajax({
                                     type: "POST",
-                                    url: "http://127.0.0.1/drugapi/api/otherdrug/delete.php",
+                                    url: "<?php echo($API_url); ?>/api/otherdrug/delete.php",
                                     data: JSON.stringify(id),
                                     success: function(result) {
                                         // console.log(result)
                                         const drugs = result.message;
                                         console.log(drugs);
                                         // Ajax call completed successfully-
-                                        location.reload();
 
                                     }
 
                                 });
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo($API_url); ?>/drugapi/api/interact/deleteherb.php",
+                                    data: JSON.stringify(id),
+                                    success: function(result) {
+                                        // console.log(result)
+                                        const drugs = result.message;
+                                        console.log(drugs);
+                                        // Ajax call completed successfully-
+                                        
+                                    }
+
+                                });
+                                location.reload();
+
                             }
                         },
                         cancel: function() {
@@ -764,7 +797,7 @@
                                 console.log('the user clicked confirm');
                                 $.ajax({
                                     type: "POST",
-                                    url: "http://127.0.0.1/drugapi/api/interact/delete.php",
+                                    url: "<?php echo($API_url); ?>/api/interact/delete.php",
                                     data: JSON.stringify(id),
                                     success: function(result) {
                                         // console.log(result)
@@ -919,7 +952,7 @@
                 console.log(interact)
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1/drugapi/api/interact/update.php",
+                    url: "<?php echo($API_url); ?>/api/interact/update.php",
                     data: JSON.stringify(interact),
                     success: function(result) {
                         // console.log(result)
@@ -953,7 +986,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1/drugapi/api/drug/update.php",
+                    url: "<?php echo($API_url); ?>/api/drug/update.php",
                     data: JSON.stringify(drugname),
                     success: function(result) {
                         // console.log(result)
@@ -998,7 +1031,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1/drugapi/api/otherdrug/update.php",
+                    url: "<?php echo($API_url); ?>/api/otherdrug/update.php",
                     data: JSON.stringify(otherdrugname),
                     success: function(result) {
                         // console.log(result)
@@ -1047,7 +1080,7 @@
                 };
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1/drugapi/api/interact/read2.php",
+                    url: "<?php echo($API_url); ?>/api/interact/read2.php",
                     data: JSON.stringify(interact),
                     success: function(result) {
                         console.log(result)
@@ -1167,7 +1200,7 @@
                 };
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1/drugapi/api/drug/create.php",
+                    url: "<?php echo($API_url); ?>/api/drug/create.php",
                     data: drug,
                     success: function(data) {
                         // Ajax call completed successfully-
@@ -1200,7 +1233,7 @@
                 };
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1/drugapi/api/interact/create.php",
+                    url: "<?php echo($API_url); ?>/api/interact/create.php",
                     data: JSON.stringify(interact),
                     success: function(data) {
                         // Ajax call completed successfully-
@@ -1225,7 +1258,7 @@
                 console.log(otherdrug)
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1/drugapi/api/otherdrug/create.php",
+                    url: "<?php echo($API_url); ?>/api/otherdrug/create.php",
                     data: JSON.stringify(otherdrug),
                     success: function(data) {
                         // Ajax call completed successfully-
@@ -1262,7 +1295,7 @@
     </div>
 
     <div class="container">
-        <h3 class="d-flex justify-content-center ">Manangement</h3>
+        <h3 class="d-flex justify-content-center ">Management</h3>
 
         <div class="row justify-content-center align-items-center h-100 my-3">
             <div class="col-sm-8 ">
@@ -1289,7 +1322,7 @@
                             <script>
                                 var htmls = '';
                                 $.ajax({
-                                    url: 'http://127.0.0.1/drugapi/api/drug/read.php',
+                                    url: '<?php echo($API_url); ?>/api/drug/read.php',
                                     data: {},
                                     type: 'get',
                                     success: function(result) {
@@ -1357,7 +1390,7 @@
                     </div>
                 </form>
                 <div class="col py-2">Edit Herb</div>
-                <div class="col-11 py-2">
+                <div class="col-12 py-2">
                     <div class="ui-widget">
 
                         <div class="ui-widget">
@@ -1366,7 +1399,7 @@
                                 <script>
                                     var htmls = '';
                                     $.ajax({
-                                        url: 'http://127.0.0.1/drugapi/api/otherdrug/read.php',
+                                        url: '<?php echo($API_url); ?>/api/otherdrug/read.php',
                                         data: {},
                                         type: 'get',
                                         success: function(result) {
@@ -1409,6 +1442,9 @@
 
                         </div>
                     </form>
+
+
+                    
                 </div>
                 <div class="alert alert-success herbAdd">
                     <strong>Success!</strong> add new data success.
@@ -1429,7 +1465,7 @@
                                     <script>
                                         var htmls = '';
                                         $.ajax({
-                                            url: 'http://127.0.0.1/drugapi/api/drug/read.php',
+                                            url: '<?php echo($API_url); ?>/api/drug/read.php',
                                             data: {},
                                             type: 'get',
                                             success: function(result) {
@@ -1458,7 +1494,7 @@
                                         <script>
                                             var htmls = '';
                                             $.ajax({
-                                                url: 'http://127.0.0.1/drugapi/api/otherdrug/read.php',
+                                                url: '<?php echo($API_url); ?>/api/otherdrug/read.php',
                                                 data: {},
                                                 type: 'get',
                                                 success: function(result) {

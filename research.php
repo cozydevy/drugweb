@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+include_once 'url.php';
+
+
 
 ?>
 <!DOCTYPE html>
@@ -72,7 +75,7 @@ session_start();
           <script>
             var htmls = '';
             $.ajax({
-              url: 'http://127.0.0.1/drugapi/api/drug/read.php',
+              url: '<?php echo($API_url); ?>/api/drug/read.php',
               data: {},
               type: 'get',
               success: function(result) {
@@ -119,7 +122,7 @@ session_start();
           <script>
             var htmls2 = '';
             $.ajax({
-              url: 'http://127.0.0.1/drugapi/api/otherdrug/read.php',
+              url: '<?php echo($API_url); ?>/api/otherdrug/read.php',
               data: {},
               type: 'get',
               success: function(result) {
@@ -263,7 +266,7 @@ session_start();
 
       $.ajax({
         type: "POST",
-        url: "http://127.0.0.1/drugapi/api/interact/read_one.php",
+        url: "<?php echo($API_url); ?>/api/interact/read_one.php",
         dataType: 'json',
         data: JSON.stringify(drugs),
         success: function(result) {
@@ -275,7 +278,7 @@ session_start();
 
           console.log(result)
 
-          $.redirect('http://127.0.0.1/webdrug/result.php', {
+          $.redirect('<?php echo($API_HOME); ?>/result.php', {
             re
           }, "POST");
 

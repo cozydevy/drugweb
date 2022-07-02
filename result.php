@@ -4,7 +4,7 @@ $data = file_get_contents("php://input");
 $result = urldecode($data);
 $result1 = str_replace("re=", "", $result);
 $json = json_decode($result1, true);
-
+include_once 'url.php';
 
 
 // $dataresult = json_decode($data, true);
@@ -151,7 +151,7 @@ $dataresult = $json;
   <div class="container">
   <div class="headercontent2">
 <header class="d-flex flex-wrap  p-2 mb-4 ">
-      <a href="http://127.0.0.1/webdrug/research.php" class="d-flex   text-white text-decoration-none ">
+      <a href="<?php echo($API_HOME); ?>/research.php" class="d-flex   text-white text-decoration-none ">
         <span >Research</span>
       </a>
 
