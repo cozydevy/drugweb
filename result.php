@@ -62,8 +62,8 @@ $dataresult = $json;
 
   <script>
     $(document).ready(function() {
-      var storedArray = JSON.parse(sessionStorage.getItem("result"));
-      console.log(storedArray);
+      // var storedArray = JSON.parse(sessionStorage.getItem("result"));
+      // console.log(storedArray);
 
 
 
@@ -302,9 +302,14 @@ $dataresult = $json;
                 <tr id="task-<?= $i ?>" class="task-list-row" data-category2="<?= $docsubs; ?>"data-docs="<?= $docsubs; ?>"  data-category="<?= $aa; ?>" data-task-id=<?= $i ?> data-drug="<?= $namedrug; ?>" data-otherdrug="<?= $idotherdrug; ?>" data-severity="<?= $severitySubs; ?>" >
 
 
+                    <?php 
+                    
 
+                    $name=explode(" ", $idotherdrug);
+//$idotherdrug;
+                    ?>
                   <td> <?= $namedrug; ?> </td>
-                  <td> <?= $idotherdrug; ?> </td>
+                  <td> <?php echo $name[0]."  <i>".$name[1] ." ".$name[2]."</i> " ?> </td>
 
                   <td> <?= $summary; ?> </td>
                   <td> <?= $severitySubs; ?> </td>

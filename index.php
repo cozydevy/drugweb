@@ -1,3 +1,7 @@
+<?php 
+include_once 'url.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +43,7 @@
 
         </div>
         <div class="next">
-            <a href="research.php" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Next</a>
+            <a href="<?php echo($API_HOME); ?>/research.php" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Next</a>
 
         </div>
     </main>

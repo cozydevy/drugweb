@@ -35,12 +35,16 @@ include_once 'url.php';
   <script src="js/jquery.redirect.js"></script>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-  <script>
+  <!-- <script>
     if (window.history.replaceState) {
       window.history.replaceState(null, null, window.location.href);
     }
-  </script>
-
+  </script> -->
+<script>
+if(performance.navigation.type == 2){
+   location.reload(true);
+}
+</script>
 </head>
 
   
