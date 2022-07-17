@@ -1,5 +1,10 @@
 <?php
 session_start();
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggeding'])) {
+	header('Location: index.php');
+	exit;
+}
 
 include_once 'url.php';
 
@@ -11,7 +16,7 @@ include_once 'url.php';
 
 <head>
 
-  <title>Drug</title>
+  <title>research</title>
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
 

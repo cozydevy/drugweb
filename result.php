@@ -1,4 +1,10 @@
 <?php
+session_start();
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggeding'])) {
+	header('Location: index.php');
+	exit;
+}
 
 $data = file_get_contents("php://input");
 $result = urldecode($data);
@@ -42,7 +48,7 @@ $dataresult = $json;
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Result</title>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
   <link href="css/css2.css" rel="stylesheet">
 

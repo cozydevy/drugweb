@@ -1,4 +1,10 @@
 <?php 
+session_start();
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggeding'])) {
+	header('Location: index.php');
+	exit;
+}
 include_once 'url.php';
 
 ?>
