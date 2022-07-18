@@ -1,10 +1,10 @@
 <?php
 session_start();
 // Change this to your connection info.
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'root';
-$DATABASE_PASS = '';
-$DATABASE_NAME = 'dbdrug';
+$DATABASE_HOST = 'sql102.epizy.com';
+$DATABASE_USER = 'epiz_31641611';
+$DATABASE_PASS = 'v9YtYRdPMW';
+$DATABASE_NAME = 'epiz_31641611_drug';
 // Try and connect using the info above.
 $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
 if ( mysqli_connect_errno() ) {
@@ -38,12 +38,10 @@ if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE username = ?'
         } else {
             // Incorrect password
             header('Location: login.php');
-
         }
     } else {
         // Incorrect username
         header('Location: login.php');
-
     }
 
 	$stmt->close();

@@ -1,10 +1,6 @@
 <?php
 session_start();
-// If the user is not logged in redirect to the login page...
-if (!isset($_SESSION['loggeding'])) {
-	header('Location: index.php');
-	exit;
-}
+
 
 $data = file_get_contents("php://input");
 $result = urldecode($data);
